@@ -1,22 +1,14 @@
-from googletrans import Translator
+from Backend.Recorder import Recorder
+from Backend.SpeechToText import SpeechToText
+from Backend.TextToSpeech import TextToSpeech
+from Backend.TextTranslator import TextTranslator
 
 
-# translator = Translator()
-# s = "אני הולך לבית ספר,  מחר כבר נעשה את השיעורי בית\n לילה טוב אמא"
-# out1 = translator.translate(s, dest="en")
-# print(out1.text)
-
-# s = "I'm going to school, tomorrow already done the homework"
-# out2 = translator.translate(s, dest="he")
-# print(out2.text)
-
-
-
-import speech_recognition as sr
-r = sr.Recognizer()
-with sr.Microphone() as source:
-    try:
-        audio = r.listen(source)
-        text = r.recognize_google(audio)
-    except:
-        pass
+recorder = Recorder()
+audio = recorder.Record()
+speech_to_text = SpeechToText('en')
+audio_text = speech_to_text.GetText(audio)
+text_translator = TextTranslator('he')
+translated_audio_text = text_translator.Translate(audio_text)
+text_to_speech = TextToSpeech()
+TextToSpeech.Speak(translated_audio_text) 
