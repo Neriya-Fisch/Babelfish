@@ -1,11 +1,11 @@
 import { useState } from "react";
-import Register from "./Register";
-import Login from "./Login";
+import ChatBox from "./components/Login.js";
+import './App.css';
+ 
 
 function App() {
   return (
-  
-    "Hello World!"
+    <ChatBox/>
   );
 }
 export default App;
