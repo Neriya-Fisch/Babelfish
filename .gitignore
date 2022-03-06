@@ -151,6 +151,5 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-frontend/client/package-lock.json
-frontend/client/package.json
 *.json
+**/node_modules
