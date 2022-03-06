@@ -27,37 +27,7 @@
     <title>React App</title>
   </head>
   <body>
-    <h1>Registration</h1>
-    <form id="reg-form">
-      <input type="text" id="username" placeholder="Username">
-      <input type="password" id="password" placeholder="Password">
-      <input type="submit" value="Submit form">
-    </form>
-    
-    <script>
-      const form = document.getElementById('reg-form')
-      form.addEventListener('submit', registerUser)
 
-      async function registerUser(event) {
-        event.preventDefault()
-        const username = document.getElementById('username').value
-        const password = document.getElementById('password').value
-
-        const result = await fetch('/api/register', {
-          method: 'Post',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify({
-            username,
-            password
-          })
-        }).then((res) => res.json())
-
-        console.log(result)
-      }
-    </script>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <!--
