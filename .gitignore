@@ -153,3 +153,4 @@ cython_debug/
 
 frontend/client/package-lock.json
 frontend/client/package.json
+*.json
