@@ -1,8 +1,12 @@
+
+
 const express = require("express");
 
 const PORT = process.env.PORT || 3001;
 
 const app = express();
+
+const spawn = require("child_process").spawn;
 
 // open socket connection, 
 // using for chatBox consistent communication
@@ -40,7 +44,13 @@ io.on("connection", socket =>{
   // get message from user and send it to another user.
   socket.on("send-message", (message, user_name) =>{
     console.log("message:, ",message, "to: ", user_name)
-    socket.to(user_name_to_id_map[user_name]).emit("recive-message", message)
+    const pythonProcess = spawn('python',["../translate.py", message]);
+    pythonProcess.stdout.on('data', (data) => {
+      console.log("from python:",data.toString())
+      socket.to(user_name_to_id_map[user_name]).emit("recive-message", data.toString())
+        // return data.toString()
+    });
+    // socket.to(user_name_to_id_map[user_name]).emit("recive-message", translated_message)
   })
   socket.on("choose-user-name", (my_user_name) => {
     console.log("Your new user name is: ", my_user_name)
