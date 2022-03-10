@@ -1,8 +1,24 @@
+require("dotenv").config({path:__dirname+'/.env'});
 const express = require("express");
+const connection = require("./db");
+const userRoutes = require("./routes/users");
+const authRoutes = require("./routes/auth");
+const cors = require('cors');
 
 const PORT = process.env.PORT || 3001;
 
 const app = express();
+
+// database connection
+connection();
+
+// middlewares
+app.use(express.json());
+app.use(cors());
+
+// routes
+app.use("/api/users", userRoutes);
+app.use("/api/auth", authRoutes);
 
 // open socket connection, 
 // using for chatBox consistent communication
@@ -14,7 +30,7 @@ const io = require("socket.io")(3002, {
 })
 
 // Add cors configatrion
-const cors = require('cors');
+
 const corsOptions ={
   origin:'http://localhost:3000', 
   credentials:true,            //access-control-allow-credentials:true
