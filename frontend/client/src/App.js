@@ -2,7 +2,7 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import Main from "./components/Main";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
-import ChatBox from "./components/ChatBox.js";
+import ChatBox from "./components/Chat/ChatBox.js";
 
 
 function App() {
