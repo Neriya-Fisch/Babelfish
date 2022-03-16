@@ -40,7 +40,7 @@ const io = require("socket.io")(3002, {
 //   optionSuccessStatus:200
 // }
 // app.use(cors(corsOptions));
-// var user_name_to_id_map = {}
+var user_name_to_id_map = {}
 
 // Add body patser
 const bodyParser = require('body-parser');
