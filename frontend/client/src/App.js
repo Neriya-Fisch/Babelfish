@@ -15,9 +15,10 @@ function App() {
 			<Route path="/signup" exact element={<Signup />} />
 			<Route path="/login" exact element={<Login />} />
 			<Route path="/ChatBox" exact element={<ChatBox />} />
-			<Route path="/Chat" exact element={<Chat />} />
 			<Route path="/" element={<Navigate replace to="/login" />} />
-
+			<Route path="/Chat/:name" exact element={<Chat />} />
+			<Route path="/chat/:userName/:reciverId" element={<Chat />} />
+		
 		</Routes>
 	);
 }

@@ -1,5 +1,5 @@
-import React ,{useState} from 'react'
-import {Tab, Nav, Button, Modal} from 'react-bootstrap'
+import React ,{useState, useEffect} from 'react'
+import {Tab, Nav, Button, Modal, Form} from 'react-bootstrap'
 import Conversations from './Conversations'
 import Contacts from './Contacts'
 import NewConversation from './NewConversation'
@@ -11,12 +11,18 @@ const CONTACTS = 'contacts'
 
 
 
-export default function Dashboard() {
-    
-    
-    const [activeKey, setActiveKey] = useState(CONVERSATIONS)
-    const [modalOpen, setmodalOpen] = useState(false)
-    const onConversations = activeKey === CONVERSATIONS
+export default function Dashboard({socket}) {
+  
+  
+  const [activeKey, setActiveKey] = useState(CONVERSATIONS)
+  const [modalOpen, setmodalOpen] = useState(false)
+  const onConversations = activeKey === CONVERSATIONS
+  
+  // using the user name from the url to choose the user name and send it to server using the socket
+  useEffect(() => {
+    const user_name = window.location.pathname.split('/')[2]
+    socket.emit('choose-user-name',user_name)
+  }, [])
 
   function closeModal(){
     setmodalOpen(false)
@@ -44,7 +50,7 @@ export default function Dashboard() {
         </Tab.Pane>
       </Tab.Content>
       <div className="p-2 border-top border-right small">
-        Hello!
+      <h5>Hello {window.location.pathname.split('/')[2]}</h5>
       </div>
        <Button className='rounded-0' onClick={() => setmodalOpen(true)}>
         New {onConversations ? 'Conversations': 'Contacts'}

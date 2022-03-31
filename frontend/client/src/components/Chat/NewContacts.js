@@ -2,12 +2,27 @@ import React, { useRef } from 'react'
 import { Modal, Form, Button } from 'react-bootstrap'
 
 export default function NewContacts({ closeModal }) {
-    const emailRef = useRef()
+    const userNameRef = useRef()
 
     function handleSubmit(e) {
         e.preventDefault()
 
-        // createContacts(emailRef.current.value)
+        var newUser = userNameRef.current.value
+        // using the server to add the user to the contacts list
+        fetch('http://localhost:3001/contacts', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: newUser
+            })
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+            })
+
         closeModal()
     }
     
@@ -17,8 +32,8 @@ export default function NewContacts({ closeModal }) {
     <Modal.Body>
     <Form onSubmit={handleSubmit}>
     <Form.Group>
-    <Form.Label>Email</Form.Label>
-    <Form.Control type="text" ref={emailRef} required />
+    <Form.Label>User Name</Form.Label>
+    <Form.Control type="text" ref={userNameRef} required />
     </Form.Group>
     <Button type="submit">Add</Button>
     </Form>
