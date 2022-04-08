@@ -7,7 +7,7 @@ import ChatBox from "./components/Chat/ChatBox.js";
 
 function App() {
 	const user = localStorage.getItem("token");
-
+	console.log(user)
 	return (
 		<Routes>
 			{user && <Route path="/" exact element={<Main />} />}
