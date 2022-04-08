@@ -8,7 +8,7 @@ import Chat from "./components/Chat/Chat.js";
 
 function App() {
 	const user = localStorage.getItem("token");
-
+	console.log(user)
 	return (
 		<Routes>
 			{user && <Route path="/" exact element={<Main />} />}
