@@ -3,6 +3,7 @@ import Main from "./components/Main";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import ChatBox from "./components/Chat/ChatBox.js";
+import Chat from "./components/Chat/Chat.js";
 
 
 function App() {
@@ -15,7 +16,9 @@ function App() {
 			<Route path="/login" exact element={<Login />} />
 			<Route path="/ChatBox" exact element={<ChatBox />} />
 			<Route path="/" element={<Navigate replace to="/login" />} />
-
+			<Route path="/Chat/:name" exact element={<Chat />} />
+			<Route path="/chat/:userName/:reciverId" element={<Chat />} />
+		
 		</Routes>
 	);
 }
