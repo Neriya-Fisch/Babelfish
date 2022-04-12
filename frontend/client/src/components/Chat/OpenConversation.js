@@ -5,7 +5,7 @@ import { Button, Form, InputGroup } from 'react-bootstrap';
 export default function OpenConversation({socket}) {
   
   const [userName, setUserName] = useState(null);
-  const [text, setText] = useState(null);
+  const [text, setText] = useState("");
   const [messages, setMessages] = useState([]);
   const setRef = useCallback(node => {
     if (node) {
