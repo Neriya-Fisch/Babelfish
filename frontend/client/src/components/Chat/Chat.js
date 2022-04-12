@@ -11,9 +11,6 @@ socket.on('connect', (socket) => {
    console.log('socket connected', socket);
 })
 
-	const user = localStorage.getItem("user");
-	console.log(user)
-
 	const handleLogout = () => {
 		localStorage.removeItem("user");
 		window.location.reload();
