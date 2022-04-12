@@ -9,9 +9,6 @@ import NewContacts from './NewContacts'
 const CONVERSATIONS = 'conversation'
 const CONTACTS = 'contacts'
 const user = JSON.parse(localStorage.getItem("user"));
-if(user)
-  console.log(user)
-// console.log(user.firstName, user.email)
 
 export default function Dashboard({socket}) {
   
