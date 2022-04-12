@@ -7,11 +7,10 @@ import Chat from "./components/Chat/Chat.js";
 
 
 function App() {
-	const user = localStorage.getItem("token");
-	console.log(user)
+	const user = localStorage.getItem("user");
 	return (
 		<Routes>
-			{user && <Route path="/" exact element={<Main />} />}
+			{user && <Route path="/" exact element={<Chat />} />}
 			<Route path="/signup" exact element={<Signup />} />
 			<Route path="/login" exact element={<Login />} />
 			<Route path="/ChatBox" exact element={<ChatBox />} />
