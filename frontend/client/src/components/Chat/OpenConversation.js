@@ -1,17 +1,18 @@
 import React, {useState, useEffect, useCallback } from 'react'
 import { Button, Form, InputGroup } from 'react-bootstrap';
 
+const user = JSON.parse(localStorage.getItem("user"));
 
 export default function OpenConversation({socket}) {
   
-  const [userName, setUserName] = useState(null);
+  const [reciverName, setReciverName] = useState(null);
   const [text, setText] = useState("");
   const [messages, setMessages] = useState([]);
-  const setRef = useCallback(node => {
-    if (node) {
-      node.scrollIntoView({ smooth: true })
-    }
-  }, [])
+  // const setRef = useCallback(node => {
+  //   if (node) {
+  //     node.scrollIntoView({ smooth: true })
+  //   }
+  // }, [])
 
   socket.on("recive-message", (message_in) => {
     console.log(message_in)
@@ -32,41 +33,30 @@ export default function OpenConversation({socket}) {
     // add the message to the message list
     var message_detail = {direction:"out", message:text}
     addMessage(message_detail);
-    var userName = window.location.pathname.split('/')[2]
-    var reciverId = window.location.pathname.split('/')[3]
-    socket.emit('send-message', text,userName, reciverId)
+    var userEmail = user.email
+    var reciverEmail = window.location.pathname.split('/')[2]
+    socket.emit('send-message', text,userEmail, reciverEmail)
     // clear the text field
     setText('');
   };
-
   
-
   // get user name from server using the /contacts/:id post api request
   // and get message history from the server using the user name and the user id
   useEffect(() => {
-    var userName = window.location.pathname.split('/')[2]
-    var userId = window.location.pathname.split('/')[3]
-    // get user name from server by id, using POST request
-    fetch('http://localhost:3001/contacts/' + userId, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        id: userId
-      })
-    })
+    var reciverEmail = window.location.pathname.split('/')[2]
+    // get reciver name from server by Email, using GET request
+    fetch('http://localhost:3001/user_name/' + reciverEmail)
     .then(res => res.json())
     .then(data => {
-      setUserName(data.name)
+      setReciverName(data)
     })
     .catch(err => console.log(err));
+
     // get user messages from server by user name and user id
     // setMessages(message_db)
-    fetch(`http://localhost:3001/messages/${userName}/${userId}`)
+    fetch(`http://localhost:3001/messages/${user.email}/${reciverEmail}`)
     .then(res => res.json())
     .then(data => {
-      console.log("data22", data)
       setMessages(data);
     })
     .catch(err => console.log(err));
@@ -76,7 +66,7 @@ export default function OpenConversation({socket}) {
       <div className="d-flex flex-column flex-grow-1">
       <div className="flex-grow-1 overflow-auto">
         <div className="d-flex flex-column flex-grow-1" >
-        Converation with {userName}</div>
+        Converation with {reciverName}</div>
       </div>
       <div className="flex-grow-1 overflow-auto">
         <div className="d-flex flex-column align-items-start justify-content-end px-3">
@@ -89,7 +79,7 @@ export default function OpenConversation({socket}) {
         {n.message}
       </span >
       <div className={`text-muted small ${n.direction === 'out' ? 'text-right' : ''}`}>
-                  {n.direction === 'in' ? userName : 'You'}
+                  {n.direction === 'in' ? reciverName : 'You'}
       </div>
       </div>
         ))}

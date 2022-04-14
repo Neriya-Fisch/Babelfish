@@ -1,16 +1,17 @@
 import React,{useState,useEffect } from 'react'
 import { ListGroup } from 'react-bootstrap'
 
+const user = JSON.parse(localStorage.getItem("user"));
+
 export default function Contacts() {
   const [contacts, setContacts] = useState([]);
 
   // get the contacts from the server function
   const getContacts = () => {
     // fetch the contacts from the server
-    fetch('http://localhost:3001/contacts')
+    fetch('http://localhost:3001/contacts/' + user.email)
     .then(res => res.json())
     .then(data => {
-      console.log("data")
       setContacts(data);
     })
     .catch(err => console.log(err));
@@ -25,8 +26,8 @@ export default function Contacts() {
   return (
     <ListGroup>
       {contacts.map(contact => (
-        <ListGroup.Item key={contact.id}>
-          <a href={`/chat/${window.location.pathname.split('/')[2]}/${contact.id}`}>{contact.name}</a>
+        <ListGroup.Item key={contact.email}>
+          <a href={`/chat/${contact.email}`}>{contact.name}</a>
         </ListGroup.Item>
       ))}
     </ListGroup>

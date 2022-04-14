@@ -4,9 +4,8 @@ import OpenConversation from './OpenConversation';
 import {io} from 'socket.io-client'
 import styles from "./styles.module.css";
 
-
+// create a socket connection
 const socket = io("http://localhost:3002");
-
 socket.on('connect', (socket) => {
    console.log('socket connected', socket);
 })
@@ -16,8 +15,6 @@ socket.on('connect', (socket) => {
 		window.location.reload();
 	};
 
-
-
 export default function Chat() {
   return (
     <div className='d-flex' style={{height: '100vh'}}>
@@ -25,7 +22,6 @@ export default function Chat() {
         className='flex-grow-1'
       />
       <OpenConversation socket={socket}/>
-
       <div className={styles.main_container}>
 		<nav className={styles.navbar}>
       <h1>fakebook</h1>
