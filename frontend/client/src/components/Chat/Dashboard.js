@@ -2,7 +2,6 @@ import React ,{useState, useEffect} from 'react'
 import {Tab, Nav, Button, Modal, Form} from 'react-bootstrap'
 import Conversations from './Conversations'
 import Contacts from './Contacts'
-import NewConversation from './NewConversation'
 import NewContacts from './NewContacts'
 
 
@@ -13,14 +12,14 @@ const user = JSON.parse(localStorage.getItem("user"));
 export default function Dashboard({socket}) {
   
   
-  const [activeKey, setActiveKey] = useState(CONVERSATIONS)
+  const [activeKey, setActiveKey] = useState(CONTACTS)
   const [modalOpen, setmodalOpen] = useState(false)
   const onConversations = activeKey === CONVERSATIONS
   
   // using the user name from the url to choose the user name and send it to server using the socket
   useEffect(() => {
-    const user_name = window.location.pathname.split('/')[2]
-    socket.emit('choose-user-name',user_name)
+    const user_email = user.email
+    socket.emit('choose-user-name', user_email)
   }, [])
 
   function closeModal(){
@@ -51,14 +50,12 @@ export default function Dashboard({socket}) {
       <div className="p-2 border-top border-right small">
       <h5>Hello {user.firstName + " " + user.lastName}</h5>
       </div>
-       <Button className='rounded-0' onClick={() => setmodalOpen(true)}>
-        New {onConversations ? 'Conversations': 'Contacts'}
-      </Button>
+      {onConversations ? " " : <Button className='rounded-0' onClick={() => setmodalOpen(true)}>
+        New Contacts
+      </Button>}
       </Tab.Container>
       <Modal show={modalOpen} onHide={closeModal}>
         {
-          onConversations ? 
-          <NewConversation closeModal={closeModal}/> :
           <NewContacts closeModal={closeModal}/>
         }
       </Modal>
