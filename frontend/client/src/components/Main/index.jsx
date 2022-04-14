@@ -1,10 +1,11 @@
 import styles from "./styles.module.css";
 
 const Main = () => {
-	const user = localStorage.getItem("token");
+	const user = localStorage.getItem("user");
+	console.log(user)
 
 	const handleLogout = () => {
-		localStorage.removeItem("token");
+		localStorage.removeItem("user");
 		window.location.reload();
 	};
 

@@ -8,8 +8,7 @@ import NewContacts from './NewContacts'
 
 const CONVERSATIONS = 'conversation'
 const CONTACTS = 'contacts'
-
-
+const user = JSON.parse(localStorage.getItem("user"));
 
 export default function Dashboard({socket}) {
   
@@ -50,7 +49,7 @@ export default function Dashboard({socket}) {
         </Tab.Pane>
       </Tab.Content>
       <div className="p-2 border-top border-right small">
-      <h5>Hello {window.location.pathname.split('/')[2]}</h5>
+      <h5>Hello {user.firstName + " " + user.lastName}</h5>
       </div>
        <Button className='rounded-0' onClick={() => setmodalOpen(true)}>
         New {onConversations ? 'Conversations': 'Contacts'}

@@ -76,19 +76,19 @@ app.get("/messages/:userName", (req, res) => {
 const contacts = [
   {
     id: '1',
-    name: 'Александр'
+    name: 'Gal Kaminka'
   },
   {
     id: '2',
-    name: 'Василий'
+    name: 'Dudi Sarna'
   },
   {
     id: '3',
-    name: 'Сергей'
+    name: 'Erez Sheiner'
   },
   {
     id: '4',
-    name: 'Андрей'
+    name: 'Eli Porat'
   },
 ]
 
