@@ -4,6 +4,7 @@ const express = require("express");
 const connection = require("./db");
 const userRoutes = require("./routes/users");
 const authRoutes = require("./routes/auth");
+const newContactRoute = require("../client/src/components/routes/newContactRoute")
 const cors = require('cors');
 const spawn = require("child_process").spawn;
 
@@ -55,49 +56,6 @@ messageHistory = [
   }
 ];
 
-const contacts = [
-  {
-  user_Email: "or@gmail.com",
-  contacts: [{
-      email: 'gk@gmail.com',
-      name: 'Gal Kaminka'
-    },
-    {
-      email: 'ds@gmail.com',
-      name: 'Dudi Sarna'
-    },
-    {
-      email: 'es@gmail.com',
-      name: 'Erez Sheiner'
-    },
-    {
-      email: 'ep@gmail.com',
-      name: 'Eli Porat'
-    },]
-  },
-  {
-    user_Email: "nr@gmail.com",
-    contacts: [{
-      email: 'gk@gmail.com',
-        name: 'Gal Kaminka'
-      },
-      {
-        email: 'ds@gmail.com',
-        name: 'Dudi Sarna'
-      },]
-  }
-
-  ]
-
-// Get request to return contacts by user Email. send only the contacts list
-app.get("/contacts/:userEmail", (req, res) => {
-  const userEmail = req.params.userEmail;
-  const userContacts = contacts.find(
-    (user) => user.user_Email === userEmail
-  );
-  res.json(userContacts.contacts);
-});
-
 // return message history by user name and user id using get request
 app.get("/messages/:user_email/:reciver_email", (req, res) => {
   var user_email = req.params.user_email;
@@ -111,17 +69,6 @@ app.get("/messages/:user_email/:reciver_email", (req, res) => {
   );
   console.log("message_detail", message_detail)
   res.send(message_detail.messages);
-});
-
-// post request to add new contact to the user contacts list
-app.post("/contacts/:user_email", (req, res) => {
-  const userEmail = req.params.user_email
-  const newContact = req.body;
-  const userContacts = contacts.find(
-    (user) => user.user_Email === userEmail
-  );
-  userContacts.contacts.push(newContact);
-  res.json(userContacts.contacts);
 });
 
 // get request, return the user name by user email
@@ -142,7 +89,7 @@ app.use(cors());
 // routes
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
-
+app.use("/contacts", newContactRoute);
 
 // open socket connection, 
 // using for chatBox consistent communication
