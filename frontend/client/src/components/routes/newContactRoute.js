@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const mongoose = require("mongoose");
 
 const contacts = [
   {
@@ -37,16 +38,27 @@ const contacts = [
 // post request to add new contact to the user contacts list
 router.post("/:user_email", (req, res) => {
   const userEmail = req.params.user_email
-  const newContact = req.body;
+  const newContactDetails = req.body;
+
   const userContacts = contacts.find(
     (user) => user.user_Email === userEmail
   );
-  userContacts.contacts.push(newContact);
+  userContacts.contacts.push(newContactDetails);
+
+  var newContactSchema = new mongoose.Schema({
+	user_email: String,
+	new_contact: String,
+});
+  const connection = mongoose.createConnection(process.env.DB);
+  var newContact = connection.model("Contacts", newContactSchema);
+  newContact.create({ user_email: "userEmail", new_contact: "newContactDetails"}, function (err){
+    if (err) return handleError(err);
+  })
   res.json(userContacts.contacts);
 });
 
-router.get("/:userEmail", (req, res) => {
-  const userEmail = req.params.userEmail;
+router.get("/:user_email", (req, res) => {
+  const userEmail = req.params.user_email;
   const userContacts = contacts.find(
     (user) => user.user_Email === userEmail
   );
