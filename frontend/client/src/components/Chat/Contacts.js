@@ -12,7 +12,7 @@ export default function Contacts() {
     fetch('http://localhost:3001/contacts/' + user.email)
     .then(res => res.json())
     .then(data => {
-      setContacts(data);
+      setContacts(data[0].contacts);
     })
     .catch(err => console.log(err));
   };
