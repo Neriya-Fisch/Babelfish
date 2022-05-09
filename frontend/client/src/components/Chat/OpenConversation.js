@@ -48,7 +48,8 @@ export default function OpenConversation({socket}) {
     fetch('http://localhost:3001/user_name/' + reciverEmail)
     .then(res => res.json())
     .then(data => {
-      setReciverName(data)
+      var name = `${data[0].firstName} ${data[0].lastName}`
+      setReciverName(name)
     })
     .catch(err => console.log(err));
 

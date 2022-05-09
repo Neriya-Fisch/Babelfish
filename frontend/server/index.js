@@ -6,6 +6,7 @@ const userRoutes = require("./routes/users");
 const authRoutes = require("./routes/auth");
 const newContactRoute = require("./routes/contactsRoute")
 const conversationRoute = require("./routes/conversationRoute")
+const userFromEmail = require("./routes/userFromEmail")
 const cors = require('cors');
 const spawn = require("child_process").spawn;
 
@@ -28,16 +29,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.raw());
 
-
-
-// get request, return the user name by user email
-app.get("/user_name/:user_email", (req, res) => {
-  const user_email = req.params.user_email;
-  // TODO: use the mongoDB to get the user name by user email, for now using the hardcoded user name
-  const user_name = "Gal";
-  res.json(user_name);
-});
-
 // database connection
 connection();
 
@@ -50,6 +41,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/contacts", newContactRoute);
 app.use("/messages", conversationRoute);
+app.use("/user_name", userFromEmail);
 
 // open socket connection, 
 // using for chatBox consistent communication
