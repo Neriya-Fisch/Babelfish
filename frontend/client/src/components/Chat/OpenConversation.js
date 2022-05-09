@@ -35,7 +35,7 @@ export default function OpenConversation({socket}) {
     addMessage(message_detail);
     var userEmail = user.email
     var reciverEmail = window.location.pathname.split('/')[2]
-    socket.emit('send-message', text,userEmail, reciverEmail)
+    socket.emit('send-message', text, userEmail, reciverEmail)
     // clear the text field
     setText('');
   };
@@ -70,16 +70,16 @@ export default function OpenConversation({socket}) {
       </div>
       <div className="flex-grow-1 overflow-auto">
         <div className="d-flex flex-column align-items-start justify-content-end px-3">
-      {messages.map(n => (
+      {messages.map(message => (
       <div
-      className={`my-1 d-flex flex-column ${n.direction === 'out' ? 'align-self-end align-items-end' : 'align-items-start'}`}
+      className={`my-1 d-flex flex-column ${message.direction === 'out' ? 'align-self-end align-items-end' : 'align-items-start'}`}
       >
       <span 
-        className={`rounded px-2 py-1 ${n.direction === 'out' ? 'bg-primary text-white' : 'border'}`}>
-        {n.message}
+        className={`rounded px-2 py-1 ${message.direction === 'out' ? 'bg-primary text-white' : 'border'}`}>
+        {message.message}
       </span >
-      <div className={`text-muted small ${n.direction === 'out' ? 'text-right' : ''}`}>
-                  {n.direction === 'in' ? reciverName : 'You'}
+      <div className={`text-muted small ${message.direction === 'out' ? 'text-right' : ''}`}>
+                  {message.direction === 'in' ? reciverName : 'You'}
       </div>
       </div>
         ))}
