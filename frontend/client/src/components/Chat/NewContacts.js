@@ -7,6 +7,10 @@ export default function NewContacts({ closeModal }) {
     const userNameRef = useRef()
     const userEmailRef = useRef()
 
+    function refreshPage() {
+    window.location.reload(false);
+    }
+
     function handleSubmit(e) {
         e.preventDefault()
 
@@ -34,19 +38,21 @@ export default function NewContacts({ closeModal }) {
     return (
     <>
     <Modal.Header closeButton>Add Contact</Modal.Header>
-    <Modal.Body>
-    <Form onSubmit={handleSubmit}>
-    <Form.Group>
-    <Form.Label>User Name</Form.Label>
-    <Form.Control type="text" ref={userNameRef} required />
-    </Form.Group>
-    <Form.Group>
-    <Form.Label>User Email</Form.Label>
-    <Form.Control type="text" ref={userEmailRef} required />
-    </Form.Group>
-    <Button type="submit">Add</Button>
-    </Form>
-    </Modal.Body>
+        <Modal.Body>
+            <Form onSubmit={handleSubmit}>
+                <Form.Group>
+                    <Form.Label>User Name</Form.Label>
+                    <Form.Control type="text" ref={userNameRef} required />
+                </Form.Group>
+    
+                <Form.Group>
+                    <Form.Label>User Email</Form.Label>
+                    <Form.Control type="text" ref={userEmailRef} required />
+                </Form.Group>
+                
+                <Button onClick={refreshPage} type="submit">Add</Button>
+            </Form>
+        </Modal.Body>
     </>
     )
 }
