@@ -1,24 +1,42 @@
-import React, {useState, useEffect, useCallback } from 'react'
+import React, {useState, useEffect} from 'react'
 import { Button, Form, InputGroup } from 'react-bootstrap';
+import { useSpeechSynthesis } from "react-speech-kit";
 
 const user = JSON.parse(localStorage.getItem("user"));
 
+const SpeechRecognition =  window.SpeechRecognition || window.webkitSpeechRecognition
+const mic = new SpeechRecognition()
+mic.continuous = true
+mic.interimResults = true
+
 export default function OpenConversation({socket}) {
   
+  // TODO: get user language from local storage
+  // const user_lang = user.lang
+  const user_lang = 'en-US'
+  // const user_lang = 'he'
+
+  mic.lang = user_lang
+
+  const { speak, voices} = useSpeechSynthesis();
+  // get only voices with the same language as the user
+  const voices_lang = voices.filter(voice => voice.lang === user_lang)
+  // if voice_lang is empty, add the user language.
+  // the language is not supported at the moment for TTS engine
+  if (voices_lang.length === 0) {
+    voices_lang.push({lang: user_lang, name: 'hebrew (not supporting text to speech yet)'})
+  }
   const [reciverName, setReciverName] = useState(null);
   const [text, setText] = useState("");
   const [messages, setMessages] = useState([]);
-  // const setRef = useCallback(node => {
-  //   if (node) {
-  //     node.scrollIntoView({ smooth: true })
-  //   }
-  // }, [])
+  const [isListening, setIsListening] = useState(false)
+  const [voiceIndex, setVoiceIndex] = useState(null);
+  const voice = voices_lang[voiceIndex] || null;
 
   socket.on("recive-message", (message_in) => {
     console.log(message_in)
     addMessage({direction: 'in', message: message_in})
   })
-
 
   // Add message to the message list
   function addMessage(message_detail){
@@ -40,8 +58,6 @@ export default function OpenConversation({socket}) {
     setText('');
   };
   
-  // get user name from server using the /contacts/:id post api request
-  // and get message history from the server using the user name and the user id
   useEffect(() => {
     var reciverEmail = window.location.pathname.split('/')[2]
     // get reciver name from server by Email, using GET request
@@ -63,7 +79,38 @@ export default function OpenConversation({socket}) {
     .catch(err => console.log(err));
   }, []);
 
-    return (
+  useEffect(() => {
+    if (isListening) {
+      console.log("after:", isListening)
+      console.log("here")
+      
+      mic.start()
+      mic.onend = () => {
+        console.log('continue..')
+        mic.start()
+      }
+    } else {
+      mic.stop()
+      mic.onend = () => {
+        console.log('Stopped Mic on Click')
+      }
+    }
+    mic.onstart = () => {
+      console.log('Mics on')
+    }
+    mic.onresult = event => {
+      const transcript = Array.from(event.results)
+        .map(result => result[0])
+        .map(result => result.transcript)
+        .join('')
+      setText(transcript)
+      mic.onerror = event => {
+        console.log(event.error)
+      }
+    }
+  }, [isListening]);
+
+      return (
       <div className="d-flex flex-column flex-grow-1">
       <div className="flex-grow-1 overflow-auto">
         <div className="d-flex flex-column flex-grow-1" >
@@ -81,6 +128,8 @@ export default function OpenConversation({socket}) {
       </span >
       <div className={`text-muted small ${message.direction === 'out' ? 'text-right' : ''}`}>
                   {message.direction === 'in' ? reciverName : 'You'}
+      <Button variant="outline-primary" onClick={() => { speak({text : message.message, voice})}}
+      >Listen</Button>
       </div>
       </div>
         ))}
@@ -96,10 +145,29 @@ export default function OpenConversation({socket}) {
               onChange={e => setText(e.target.value)}
               style={{height: '75px', resize: 'none'}}
               />
-              <Button type="submit">Send</Button>
+              <Button onClick={() => setIsListening(!isListening)} style={{backgroundColor: isListening ? 'red' : 'green'}}>
+              {isListening ? 'Stop' : 'Record'}
+              </Button>
+              <Button type="submit" disabled={!text}>Send</Button>
             </InputGroup>
           </Form.Group>
         </Form>
+      <select
+      id="voice"
+      name="voice"
+      value={voiceIndex || ''}
+      onChange={(event) => {
+        console.log(voices[event.target.value].lang)
+        mic.lang = voices[event.target.value].lang
+        setVoiceIndex(event.target.value);
+      }}>
+      <option value="">Default</option>
+      {voices_lang.map((option, index) => (
+        <option key={option.voiceURI} value={index}>
+          {option.lang === user_lang ? `${option.lang} - ${option.name}` :" "  }
+        </option>
+      ))}
+    </select>
     </div>
   )
 }
