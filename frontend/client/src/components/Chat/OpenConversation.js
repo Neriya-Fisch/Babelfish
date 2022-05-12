@@ -1,36 +1,42 @@
-import React, {useState, useEffect, useCallback } from 'react'
+import React, {useState, useEffect} from 'react'
 import { Button, Form, InputGroup } from 'react-bootstrap';
 import { useSpeechSynthesis } from "react-speech-kit";
 
 const user = JSON.parse(localStorage.getItem("user"));
 
-
 const SpeechRecognition =  window.SpeechRecognition || window.webkitSpeechRecognition
 const mic = new SpeechRecognition()
-
 mic.continuous = true
 mic.interimResults = true
 
 export default function OpenConversation({socket}) {
-  const { speak } = useSpeechSynthesis();
   
-  
+  // TODO: get user language from local storage
+  // const user_lang = user.lang
+  const user_lang = 'en-US'
+  // const user_lang = 'he'
+
+  mic.lang = user_lang
+
+  const { speak, voices} = useSpeechSynthesis();
+  // get only voices with the same language as the user
+  const voices_lang = voices.filter(voice => voice.lang === user_lang)
+  // if voice_lang is empty, add the user language.
+  // the language is not supported at the moment for TTS engine
+  if (voices_lang.length === 0) {
+    voices_lang.push({lang: user_lang, name: 'hebrew (not supporting text to speech yet)'})
+  }
   const [reciverName, setReciverName] = useState(null);
   const [text, setText] = useState("");
   const [messages, setMessages] = useState([]);
   const [isListening, setIsListening] = useState(false)
-
-  // const setRef = useCallback(node => {
-  //   if (node) {
-  //     node.scrollIntoView({ smooth: true })
-  //   }
-  // }, [])
+  const [voiceIndex, setVoiceIndex] = useState(null);
+  const voice = voices_lang[voiceIndex] || null;
 
   socket.on("recive-message", (message_in) => {
     console.log(message_in)
     addMessage({direction: 'in', message: message_in})
   })
-
 
   // Add message to the message list
   function addMessage(message_detail){
@@ -52,15 +58,6 @@ export default function OpenConversation({socket}) {
     setText('');
   };
   
-  const handleChange = (e) => {
-    e.preventDefault();
-    
-    // change mic language to the language from the select
-    mic.lang = e.target.value
-  }
-
-  // get user name from server using the /contacts/:id post api request
-  // and get message history from the server using the user name and the user id
   useEffect(() => {
     var reciverEmail = window.location.pathname.split('/')[2]
     // get reciver name from server by Email, using GET request
@@ -101,7 +98,6 @@ export default function OpenConversation({socket}) {
     mic.onstart = () => {
       console.log('Mics on')
     }
-
     mic.onresult = event => {
       const transcript = Array.from(event.results)
         .map(result => result[0])
@@ -132,9 +128,8 @@ export default function OpenConversation({socket}) {
       </span >
       <div className={`text-muted small ${message.direction === 'out' ? 'text-right' : ''}`}>
                   {message.direction === 'in' ? reciverName : 'You'}
-      {message.direction === 'in' ? <Button variant="outline-primary" onClick={() => { speak({text : message.message})}}
-      >Listen</Button> : null}
-
+      <Button variant="outline-primary" onClick={() => { speak({text : message.message, voice})}}
+      >Listen</Button>
       </div>
       </div>
         ))}
@@ -157,12 +152,22 @@ export default function OpenConversation({socket}) {
             </InputGroup>
           </Form.Group>
         </Form>
-        <select id = "dropdown" onChange={handleChange} >
-    <option value="en-US">English</option>
-    <option value="he">Hebrew</option>
-    <option value="fr">France</option>
-      </select>
-
+      <select
+      id="voice"
+      name="voice"
+      value={voiceIndex || ''}
+      onChange={(event) => {
+        console.log(voices[event.target.value].lang)
+        mic.lang = voices[event.target.value].lang
+        setVoiceIndex(event.target.value);
+      }}>
+      <option value="">Default</option>
+      {voices_lang.map((option, index) => (
+        <option key={option.voiceURI} value={index}>
+          {option.lang === user_lang ? `${option.lang} - ${option.name}` :" "  }
+        </option>
+      ))}
+    </select>
     </div>
   )
 }
