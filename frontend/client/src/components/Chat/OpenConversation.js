@@ -1,13 +1,25 @@
 import React, {useState, useEffect, useCallback } from 'react'
 import { Button, Form, InputGroup } from 'react-bootstrap';
+import { useSpeechSynthesis } from "react-speech-kit";
 
 const user = JSON.parse(localStorage.getItem("user"));
 
+
+const SpeechRecognition =  window.SpeechRecognition || window.webkitSpeechRecognition
+const mic = new SpeechRecognition()
+
+mic.continuous = true
+mic.interimResults = true
+
 export default function OpenConversation({socket}) {
+  const { speak } = useSpeechSynthesis();
+  
   
   const [reciverName, setReciverName] = useState(null);
   const [text, setText] = useState("");
   const [messages, setMessages] = useState([]);
+  const [isListening, setIsListening] = useState(false)
+
   // const setRef = useCallback(node => {
   //   if (node) {
   //     node.scrollIntoView({ smooth: true })
@@ -40,6 +52,13 @@ export default function OpenConversation({socket}) {
     setText('');
   };
   
+  const handleChange = (e) => {
+    e.preventDefault();
+    
+    // change mic language to the language from the select
+    mic.lang = e.target.value
+  }
+
   // get user name from server using the /contacts/:id post api request
   // and get message history from the server using the user name and the user id
   useEffect(() => {
@@ -63,7 +82,39 @@ export default function OpenConversation({socket}) {
     .catch(err => console.log(err));
   }, []);
 
-    return (
+  useEffect(() => {
+    if (isListening) {
+      console.log("after:", isListening)
+      console.log("here")
+      
+      mic.start()
+      mic.onend = () => {
+        console.log('continue..')
+        mic.start()
+      }
+    } else {
+      mic.stop()
+      mic.onend = () => {
+        console.log('Stopped Mic on Click')
+      }
+    }
+    mic.onstart = () => {
+      console.log('Mics on')
+    }
+
+    mic.onresult = event => {
+      const transcript = Array.from(event.results)
+        .map(result => result[0])
+        .map(result => result.transcript)
+        .join('')
+      setText(transcript)
+      mic.onerror = event => {
+        console.log(event.error)
+      }
+    }
+  }, [isListening]);
+
+      return (
       <div className="d-flex flex-column flex-grow-1">
       <div className="flex-grow-1 overflow-auto">
         <div className="d-flex flex-column flex-grow-1" >
@@ -81,6 +132,9 @@ export default function OpenConversation({socket}) {
       </span >
       <div className={`text-muted small ${message.direction === 'out' ? 'text-right' : ''}`}>
                   {message.direction === 'in' ? reciverName : 'You'}
+      {message.direction === 'in' ? <Button variant="outline-primary" onClick={() => { speak({text : message.message})}}
+      >Listen</Button> : null}
+
       </div>
       </div>
         ))}
@@ -96,10 +150,19 @@ export default function OpenConversation({socket}) {
               onChange={e => setText(e.target.value)}
               style={{height: '75px', resize: 'none'}}
               />
-              <Button type="submit">Send</Button>
+              <Button onClick={() => setIsListening(!isListening)} style={{backgroundColor: isListening ? 'red' : 'green'}}>
+              {isListening ? 'Stop' : 'Record'}
+              </Button>
+              <Button type="submit" disabled={!text}>Send</Button>
             </InputGroup>
           </Form.Group>
         </Form>
+        <select id = "dropdown" onChange={handleChange} >
+    <option value="en-US">English</option>
+    <option value="he">Hebrew</option>
+    <option value="fr">France</option>
+      </select>
+
     </div>
   )
 }
