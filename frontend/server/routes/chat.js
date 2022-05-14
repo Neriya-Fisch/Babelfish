@@ -28,10 +28,8 @@ module.exports = function(io) {
         { upsert: true, new: true},
       );
 
-      console.log("message:, ",message, "from: ", sender, "to userId", reciver)
       const pythonProcess = spawn('python',["../translate.py", message]);
       pythonProcess.stdout.on('data', async (data) => {
-        console.log("from python:",data.toString())
         socket.to(user_name_to_id_map[reciver]).emit("recive-message", data.toString())
 
       await messages.findOneAndUpdate(
@@ -42,9 +40,7 @@ module.exports = function(io) {
       });
     })
     socket.on("choose-user-name", (user_email) => {
-      console.log("user email: ", user_email, "user socket id: ", socket.id)
       user_name_to_id_map[user_email] = socket.id
-      
     })
   })
 }

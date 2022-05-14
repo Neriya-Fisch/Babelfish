@@ -58,7 +58,7 @@ export default function OpenConversation({socket}) {
     fetch(`http://localhost:3001/messages/${user.email}/${reciverEmail}`)
     .then(res => res.json())
     .then(data => {
-      setMessages(data);
+      setMessages(data[0].user_messages[0].messages_history);
     })
     .catch(err => console.log(err));
   }, []);
@@ -77,7 +77,7 @@ export default function OpenConversation({socket}) {
       >
       <span 
         className={`rounded px-2 py-1 ${message.direction === 'out' ? 'bg-primary text-white' : 'border'}`}>
-        {message.message}
+        {message.message_info}
       </span >
       <div className={`text-muted small ${message.direction === 'out' ? 'text-right' : ''}`}>
                   {message.direction === 'in' ? reciverName : 'You'}
