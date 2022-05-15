@@ -1,3 +1,11 @@
+// get user lang by user Email
+function user_email_to_lang(user_email) {
+	  
+	var lang = "en";
+	return lang;
+}
+
+
 module.exports = function(io) {
 
   var user_name_to_id_map = {}
@@ -8,7 +16,9 @@ module.exports = function(io) {
     // get message deatil from user, add it the message history and send to reciver.
     socket.on("send-message", (message, sender, reciver) =>{
       console.log("message:, ",message, "from: ", sender, "to userId", reciver)
-      const pythonProcess = spawn('python',["../translate.py", message]);
+      var reciver_lang = user_email_to_lang(reciver)
+      var sender_lang = user_email_to_lang(sender)
+      const pythonProcess = spawn('python',["../translate.py", message, reciver_lang, sender_lang]);
       pythonProcess.stdout.on('data', (data) => {
         console.log("from python:",data.toString())
         socket.to(user_name_to_id_map[reciver]).emit("recive-message", data.toString())
