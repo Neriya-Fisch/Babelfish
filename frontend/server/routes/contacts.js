@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const userNameByEmail = require("../models/userNameByEmail")
 const mongoose = require("mongoose");
 const connection = mongoose.createConnection(process.env.DB);
 const ContactsSchema = new mongoose.Schema({
@@ -8,10 +9,10 @@ contacts: []
 const Contacts = connection.model("Contacts", ContactsSchema);
 
 // post request to add new contact to the user contacts list
-router.post("/:user_email", (req, res) => {
+router.post("/:user_email", async (req, res) => {
   const userEmail = req.params.user_email
   const contactEmail = req.body.email;
-  const contactName = req.body.name;
+  const contactName = await userNameByEmail(contactEmail);
 
   Contacts.findOneAndUpdate(
     { user_email: userEmail},
