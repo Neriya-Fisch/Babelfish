@@ -1,54 +1,23 @@
 const router = require("express").Router();
 const mongoose = require("mongoose");
 const connection = mongoose.createConnection(process.env.DB);
-// const ContactsSchema = new mongoose.Schema({
-// user_email: String,
-// contacts: []
-// });
-// const Contacts = connection.model("Contacts", ContactsSchema);
-
-messageHistory = [
-  {
-    user_email: "or@gmail.com",
-    messages_by_id: [
-      {
-        id: "ds@gmail.com",
-        messages:[
-          {direction:"in", message:"Hello"},
-          {direction:"out", message:"Hello"},
-          {direction:"in", message:"there"},
-          {direction:"out", message:"Hello \n you"},
-          {direction:"in", message:"Hello"},
-          {direction:"out", message:"Hello"},
-          {direction:"in", message:"Hello"},
-              ]
-      },
-      {
-        id: "gk@gmail.com",
-        messages:[
-          {direction:"in", message:"Hello"},
-          {direction:"out", message:"Hello"},
-          {direction:"in", message:"there"},
-              ]
-      }
-    ]
-  }
-];
-
-// return message history by user name and user id using get request
-router.get("/:user_email/:reciver_email", (req, res) => {
-  var user_email = req.params.user_email;
-  var reciver_email = req.params.reciver_email;
-  var message_db = messageHistory.find(
-    (message) => message.user_email === user_email
-  );
-  console.log("message_db", message_db)
-  var message_detail = message_db.messages_by_id.find(
-    (message) => message.id === reciver_email
-  );
-  console.log("message_detail", message_detail)
-  res.send(message_detail.messages);
+const messagesSchema = new mongoose.Schema({
+user_email: String,
+user_messages: [{
+  _id: false,
+  partner_email: String,
+  messages_history: [{_id: false, direction: String, message_info: String} ]
+  }]
 });
 
+const messages = connection.model("Messages", messagesSchema);
+
+// return message history by user name and user id using get request
+router.get("/:user_email/:reciver_email", async (req, res) => {
+  var userEmail = req.params.user_email;
+  var reciver_email = req.params.reciver_email;
+  var query = await messages.find({ user_email: userEmail, 'user_messages.partner_email': reciver_email}).select('user_messages.messages_history');
+  res.send(query);
+});
 
 module.exports = router;
