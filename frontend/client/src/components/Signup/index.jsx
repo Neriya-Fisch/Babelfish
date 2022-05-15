@@ -8,6 +8,7 @@ const Signup = () => {
 		firstName: "",
 		lastName: "",
 		email: "",
+		language: "",
 		password: "",
 	});
 	const [error, setError] = useState("");
@@ -73,6 +74,15 @@ const Signup = () => {
 							name="email"
 							onChange={handleChange}
 							value={data.email}
+							required
+							className={styles.input}
+						/>
+						<input
+							type="text"
+							placeholder="Language"
+							name="language"
+							onChange={handleChange}
+							value={data.language}
 							required
 							className={styles.input}
 						/>
