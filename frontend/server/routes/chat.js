@@ -1,3 +1,12 @@
+
+// get user lang by user Email
+function user_email_to_lang(user_email) {
+	  
+	var lang = "en";
+	return lang;
+}
+
+
 const mongoose = require("mongoose");
 const connection = mongoose.createConnection(process.env.DB);
 const messagesSchema = new mongoose.Schema({
@@ -10,6 +19,7 @@ user_messages: [{
 });
 
 const messages = connection.model("Messages", messagesSchema);
+
 
 module.exports = function(io) {
 
@@ -28,7 +38,9 @@ module.exports = function(io) {
         { upsert: true, new: true},
       );
 
-      const pythonProcess = spawn('python',["../translate.py", message]);
+      var reciver_lang = user_email_to_lang(reciver)
+      var sender_lang = user_email_to_lang(sender)
+      const pythonProcess = spawn('python',["../translate.py", message, reciver_lang, sender_lang]);
       pythonProcess.stdout.on('data', async (data) => {
         socket.to(user_name_to_id_map[reciver]).emit("recive-message", data.toString())
 
