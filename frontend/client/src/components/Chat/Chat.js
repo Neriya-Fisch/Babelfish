@@ -10,11 +10,6 @@ socket.on('connect', (socket) => {
    console.log('socket connected', socket);
 })
 
-	const handleLogout = () => {
-		localStorage.removeItem("user");
-		window.location.reload();
-	};
-
 export default function Chat() {
   return (
     <div className='d-flex' style={{height: '100vh'}}>
@@ -23,12 +18,6 @@ export default function Chat() {
       />
       <OpenConversation socket={socket}/>
       <div className={styles.main_container}>
-		<nav className={styles.navbar}>
-      <h1>fakebook</h1>
-      <button className={styles.white_btn} onClick={handleLogout}>
-        Logout
-      </button>
-    </nav>
   </div>
 
 
