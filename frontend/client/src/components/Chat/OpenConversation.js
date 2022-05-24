@@ -35,7 +35,7 @@ export default function OpenConversation({socket}) {
 
   socket.on("recive-message", (message_in) => {
     console.log(message_in)
-    addMessage({direction: 'in', message: message_in})
+    addMessage({direction: 'in', message_info: message_in})
   })
 
   // Add message to the message list
@@ -49,7 +49,7 @@ export default function OpenConversation({socket}) {
     e.preventDefault();
 
     // add the message to the message list
-    var message_detail = {direction:"out", message:text}
+    var message_detail = {direction:"out", message_info:text}
     addMessage(message_detail);
     var userEmail = user.email
     var reciverEmail = window.location.pathname.split('/')[2]
