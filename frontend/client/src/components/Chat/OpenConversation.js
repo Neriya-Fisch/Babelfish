@@ -128,7 +128,7 @@ export default function OpenConversation({socket}) {
       </span >
       <div className={`text-muted small ${message.direction === 'out' ? 'text-right' : ''}`}>
                   {message.direction === 'in' ? reciverName : 'You'}
-      <Button variant="outline-primary" onClick={() => { speak({text : message.message, voice})}}
+      <Button variant="outline-primary" onClick={() => { speak({text : message.message_info, voice})}}
       >Listen</Button>
       </div>
       </div>
