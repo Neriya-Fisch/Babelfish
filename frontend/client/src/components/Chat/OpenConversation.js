@@ -11,10 +11,7 @@ mic.interimResults = true
 
 export default function OpenConversation({socket}) {
   
-  // TODO: get user language from local storage
-  // const user_lang = user.lang
-  const user_lang = 'en-US'
-  // const user_lang = 'he'
+  const user_lang = user.language
 
   mic.lang = user_lang
 
