@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { Messages } = require("../models/messages");
+const Messages = require("../models/messages");
 
 // return message history by user name and user id using get request
 router.get("/:user_email/:reciver_email", async (req, res) => {

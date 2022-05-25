@@ -1,4 +1,4 @@
-const { Messages } = require("../models/messages");
+const Messages = require("../models/messages");
 
 // get user lang by user Email
 function user_email_to_lang(user_email) {
