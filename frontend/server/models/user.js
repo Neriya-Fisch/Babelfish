@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const connection = mongoose.createConnection(process.env.DB);
 const jwt = require("jsonwebtoken");
 const Joi = require("joi");
 const passwordComplexity = require("joi-password-complexity");
@@ -18,7 +19,7 @@ userSchema.methods.generateAuthToken = function () {
 	return token;
 };
 
-const User = mongoose.model("user", userSchema);
+const User = connection.model("user", userSchema);
 
 const validate = (data) => {
 	const schema = Joi.object({

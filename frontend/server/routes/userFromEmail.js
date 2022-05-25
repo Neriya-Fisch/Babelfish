@@ -1,14 +1,5 @@
 const router = require("express").Router();
-const mongoose = require("mongoose");
-const connection = mongoose.createConnection(process.env.DB);
-const userSchema = new mongoose.Schema({
-	firstName: { type: String, required: true },
-	lastName: { type: String, required: true },
-	email: { type: String, required: true },
-	password: { type: String, required: true },
-});
-const User = connection.model("user", userSchema);
-
+const { User } = require("../models/user");
 
 // get request, return the user name by user email
 router.get("/:user_email", async (req, res) => {
