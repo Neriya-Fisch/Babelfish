@@ -16,12 +16,12 @@ export default function OpenConversation({socket}) {
   mic.lang = user_lang
 
   const { speak, voices} = useSpeechSynthesis();
-  // get only voices with the same language as the user
-  const voices_lang = voices.filter(voice => voice.lang === user_lang)
+  const voices_lang = voices.filter(voice => voice.lang.includes(user_lang))
+  
   // if voice_lang is empty, add the user language.
   // the language is not supported at the moment for TTS engine
   if (voices_lang.length === 0) {
-    voices_lang.push({lang: user_lang, name: 'hebrew (not supporting text to speech yet)'})
+    voices_lang.push({lang: user_lang, name: 'not supporting text to speech yet'})
   }
   const [reciverName, setReciverName] = useState(null);
   const [text, setText] = useState("");
@@ -161,7 +161,7 @@ export default function OpenConversation({socket}) {
       <option value="">Default</option>
       {voices_lang.map((option, index) => (
         <option key={option.voiceURI} value={index}>
-          {option.lang === user_lang ? `${option.lang} - ${option.name}` :" "  }
+          {option.lang} - {option.name}
         </option>
       ))}
     </select>
