@@ -38,6 +38,7 @@ const Signup = () => {
 	};
 
 	let languages_map = {
+		"Language": null,
 		"english": "en",
 		"afrikaans" : "af",
 		"albanian" : "sq",
@@ -193,13 +194,13 @@ const Signup = () => {
               className={styles.input}
             />
             <select
-							name="language"
-							onChange={handleChange}
-							value={data.language}
-							required
-							className={styles.input}
-							>{optionItems}
-						</select>
+              name="language"
+              onChange={handleChange}
+              required
+              className={styles.input}
+            >
+              {optionItems}
+            </select>
             <input
               type="password"
               placeholder="Password"
