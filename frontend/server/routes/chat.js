@@ -1,12 +1,16 @@
 const Messages = require("../models/messages");
+const { User } = require("../models/user");
 
 // get user lang by user Email
-function user_email_to_lang(user_email) {
-	  
-	var lang = "en";
-	return lang;
+async function user_email_to_lang(user_email) {
+	var query = await User.find({ email: user_email});
+	return query[0].language;
 }
 
+// let user_lang = user_email_to_lang("34@gmail.com");
+// user_lang.then(function (result) {
+//   console.log(result);
+// });
 
 module.exports = function (io) {
 
