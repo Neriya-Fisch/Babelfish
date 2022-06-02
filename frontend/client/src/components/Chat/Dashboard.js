@@ -1,6 +1,6 @@
 import React ,{useState, useEffect} from 'react'
 import {Tab, Nav, Button, Modal, Form} from 'react-bootstrap'
-import Conversations from './Conversations'
+import Requests from './Requests'
 import Contacts from './Contacts'
 import NewContacts from './NewContacts'
 
@@ -31,7 +31,7 @@ export default function Dashboard({socket}) {
       <Tab.Container activeKey={activeKey} onSelect={setActiveKey}>
         <Nav variant="tabs" className={'justify-content-center'}>
           <Nav.Item>
-            <Nav.Link eventKey={CONVERSATIONS}>conversation
+            <Nav.Link eventKey={CONVERSATIONS}>Friend Requests
             </Nav.Link>
           </Nav.Item>
           <Nav.Item>
@@ -41,7 +41,7 @@ export default function Dashboard({socket}) {
         </Nav>
       <Tab.Content className="border-right overflow-auto flex-grow-1">
         <Tab.Pane eventKey={CONVERSATIONS}>
-          <Conversations/>
+          <Requests socket={socket}/>
         </Tab.Pane>
         <Tab.Pane eventKey={CONTACTS}>
           <Contacts/>
@@ -50,9 +50,9 @@ export default function Dashboard({socket}) {
       <div className="p-2 border-top border-right small">
       <h5>Hello {user.firstName + " " + user.lastName}</h5>
       </div>
-      {onConversations ? " " : <Button className='rounded-0' onClick={() => setmodalOpen(true)}>
-        New Contacts
-      </Button>}
+      <Button className='rounded-0' onClick={() => setmodalOpen(true)}>
+        New Friend Request
+      </Button>
       </Tab.Container>
       <Modal show={modalOpen} onHide={closeModal}>
         {

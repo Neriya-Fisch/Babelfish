@@ -17,10 +17,7 @@ export default function Contacts() {
     .catch(err => console.log(err));
   };
 
-// run get contacts function when the component is mounted
-  useEffect(() => {
-    getContacts();
-  }, []);
+  getContacts();
 
   // return contacts list as link to chat by id
   return (
