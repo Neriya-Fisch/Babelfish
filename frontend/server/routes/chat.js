@@ -84,12 +84,10 @@ module.exports = function (io) {
       console.log("1");
       save(message, sender, reciver, 'out');
       var reciver_lang = user_email_to_lang(reciver);
-      var sender_lang = user_email_to_lang(sender);
       const pythonProcess = spawn("python", [
         "../translate.py",
         message,
         reciver_lang,
-        sender_lang,
       ]);
       pythonProcess.stdout.on("data", async (data) => {
         socket
