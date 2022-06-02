@@ -33,6 +33,7 @@ router.get("/requests/:user_email", async (req, res) => {
   res.send(friend_requests);
 });
 
+
 // post request to reject or to accept friend request.
 router.post("/requests/answer", async (req, res) => {
   var user_email = req.body.user_email;
@@ -40,7 +41,7 @@ router.post("/requests/answer", async (req, res) => {
   var answer = req.body.answer;
   if (answer == "accept") {
     const friend_request_name = await userNameByEmail(friend_request_email);
-
+    const user_name = await userNameByEmail(user_email);
     if (friend_request_name == null)
     res.status(404).send({ message: "User is not exist" });
 
@@ -49,9 +50,16 @@ router.post("/requests/answer", async (req, res) => {
       { $push: { contacts: { name: friend_request_name, email: friend_request_email } } },
       { upsert: true, new: true},
       function (error, user_details) {
-        if (user_details){
-        }
-        else
+        if (!user_details)
+          res.send(error);
+      }
+    );
+    Contacts.findOneAndUpdate(
+      { user_email: friend_request_email},
+      { $push: { contacts: { name: user_name, email: user_email } } },
+      { upsert: true, new: true},
+      function (error, user_details) {
+        if (!user_details)
           res.send(error);
       }
     );
