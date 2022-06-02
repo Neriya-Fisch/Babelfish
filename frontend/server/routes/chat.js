@@ -3,21 +3,14 @@ const { User } = require("../models/user");
 
 // get user lang by user Email
 async function user_email_to_lang(user_email) {
-  var query;
-  await User.findOne({ email: user_email })
+  return await User.findOne({ email: user_email })
     .then(function (user) {
-      query =  user.language;
+      return  user.language;
     })
     .catch(function (err) {
       console.log(err);
     });
-  return query;
 }
-
-// let user_lang = user_email_to_lang("34@gmail.com");
-// user_lang.then(function (result) {
-//   console.log(result);
-// });
 
 module.exports = function (io) {
   async function save(message, sender, reciver, dir) {
@@ -98,14 +91,12 @@ module.exports = function (io) {
         message,
         reciver_lang,
       ]);
-      const d="";
       pythonProcess.stdout.on("data", async (data) => {
         socket
         .to(user_name_to_id_map[reciver])
         .emit("recive-message", data.toString());        
         save(data.toString(), reciver, sender, "in");
       });
-      // console.log(message, d);
     });
     socket.on("choose-user-name", (user_email) => {
       user_name_to_id_map[user_email] = socket.id;
