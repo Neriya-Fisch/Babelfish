@@ -71,7 +71,13 @@ export default function OpenConversation({socket}) {
     fetch(`http://localhost:3001/messages/${user.email}/${reciverEmail}`)
     .then(res => res.json())
     .then(data => {
-      setMessages(data[0].user_messages[0].messages_history);
+      (data[0].user_messages).forEach(msg =>{
+        if(msg.partner_email == reciverEmail){
+          setMessages(msg.messages_history);
+          return;
+        }
+      }
+      );
     })
     .catch(err => console.log(err));
   }, []);

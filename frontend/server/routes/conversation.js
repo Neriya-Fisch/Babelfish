@@ -5,12 +5,10 @@ const Messages = require("../models/messages");
 router.get("/:user_email/:reciver_email", async (req, res) => {
   var userEmail = req.params.user_email;
   var reciver_email = req.params.reciver_email;
-  var query = await Messages
-    .find({
-      user_email: userEmail,
-      "user_messages.partner_email": reciver_email,
-    })
-    .select("user_messages.messages_history");
+  var query = await Messages.find({
+    user_email: userEmail,
+    user_messages: { $elemMatch: { partner_email: reciver_email } },
+  })
   res.send(query);
 });
 

@@ -3,8 +3,15 @@ const { User } = require("../models/user");
 
 // get user lang by user Email
 async function user_email_to_lang(user_email) {
-  var query = await User.find({ email: user_email });
-  return query[0].language;
+  var query;
+  await User.findOne({ email: user_email })
+    .then(function (user) {
+      query =  user.language;
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
+  return query;
 }
 
 // let user_lang = user_email_to_lang("34@gmail.com");
@@ -81,20 +88,24 @@ module.exports = function (io) {
     // get message deatil from user, add it the message history and send to reciver.
     socket.on("send-message", async (message, sender, reciver) => {
       // save the messsage for the sender
-      console.log("1");
       save(message, sender, reciver, 'out');
-      var reciver_lang = user_email_to_lang(reciver);
+      var reciver_lang = await user_email_to_lang(reciver)
+      .then(function (lang) {
+        return lang;
+      });
       const pythonProcess = spawn("python", [
         "../translate.py",
         message,
         reciver_lang,
       ]);
+      const d="";
       pythonProcess.stdout.on("data", async (data) => {
         socket
         .to(user_name_to_id_map[reciver])
-        .emit("recive-message", data.toString());
-      save(data.toString(), reciver, sender, "in");
+        .emit("recive-message", data.toString());        
+        save(data.toString(), reciver, sender, "in");
       });
+      // console.log(message, d);
     });
     socket.on("choose-user-name", (user_email) => {
       user_name_to_id_map[user_email] = socket.id;
