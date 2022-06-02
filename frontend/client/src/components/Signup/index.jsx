@@ -5,12 +5,13 @@ import styles from "./styles.module.css";
 
 const Signup = () => {
 	const [data, setData] = useState({
-		firstName: "",
-		lastName: "",
-		email: "",
-		language: "",
-		password: "",
-	});
+    firstName: "",
+    lastName: "",
+    email: "",
+    language: "",
+    password: "",
+    'Account Type': "",
+  });
 	const [error, setError] = useState("");
 	const navigate = useNavigate();
 
@@ -21,6 +22,7 @@ const Signup = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
+			console.log(data);
 			const url = "http://localhost:3001/api/users";
 			data.language = languages_map[data.language];
 			const { data: res } = await axios.post(url, data);
@@ -146,10 +148,11 @@ const Signup = () => {
 		"yoruba":'yo',
 		"zulu":'zu'
 	}
-	let items = Object.keys(languages_map);
 
-	let optionItems = items.map((item) => <option key={item}>{item}</option>);
-
+	let languages_keys = Object.keys(languages_map);
+	let languages_dropdown = languages_keys.map((item) => (
+    <option key={item}>{item}</option>
+  ));
 
 
 	return (
@@ -199,7 +202,17 @@ const Signup = () => {
               required
               className={styles.input}
             >
-              {optionItems}
+              {languages_dropdown}
+            </select>
+            <select
+              name="Account Type"
+              onChange={handleChange}
+              required
+              className={styles.input}
+            >
+              <option> Account Type</option>
+              <option> Business</option>
+              <option> Private</option>
             </select>
             <input
               type="password"
