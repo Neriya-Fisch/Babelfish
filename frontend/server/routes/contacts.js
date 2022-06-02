@@ -13,18 +13,21 @@ router.post("/:user_email", async (req, res) => {
   const userEmail = req.params.user_email
   const contactEmail = req.body.email;
   const contactName = await userNameByEmail(contactEmail);
-
-  Contacts.findOneAndUpdate(
-    { user_email: userEmail},
-    { $push: { contacts: { name: contactName, email: contactEmail } } },
-    { upsert: true, new: true},
-    function (error, user_details) {
-      if (user_details)
-        res.send(JSON.parse(JSON.stringify(user_details.contacts)));
-      else
-        res.send(error);
-    }
-  );
+  if (contactName == null)
+    res.status(404).send({ message: "User is not exist" });
+  else{
+    Contacts.findOneAndUpdate(
+      { user_email: userEmail},
+      { $push: { contacts: { name: contactName, email: contactEmail } } },
+      { upsert: true, new: true},
+      function (error, user_details) {
+        if (user_details)
+          res.send(JSON.parse(JSON.stringify(user_details.contacts)));
+        else
+          res.send(error);
+      }
+    );
+  }
 });
 
 router.get("/:user_email", async (req, res) => {

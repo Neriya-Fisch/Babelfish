@@ -15,7 +15,7 @@ import { Link, useNavigate,  } from "react-router-dom";
     const user = JSON.parse(localStorage.getItem("user"));
     function logOut(e){
       localStorage.removeItem("user");
-      window.location.reload(false);
+      window.location = "/";
     }
     return (
       <div>
