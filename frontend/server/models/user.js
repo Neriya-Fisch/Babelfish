@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true },
   language: { type: String, required: true },
   country: { type: String, required: true },
+  gender: { type: String, required: true },
   "Account Type": { type: String, required: true },
   password: { type: String, required: true },
 });
@@ -29,8 +30,9 @@ const validate = (data) => {
     lastName: Joi.string().required().label("Last Name"),
     email: Joi.string().email().required().label("Email"),
     "Account Type": Joi.string().required().label("Account Type"),
-    language: Joi.string().required().label("language"),
-    country: Joi.string().required().label("country"),
+    language: Joi.string().required().label("Language"),
+    country: Joi.string().required().label("Country"),
+    gender: Joi.string().required().label("Gender"),
     // password: passwordComplexity().required().label("Password"),
     password: Joi.required().label("Password"),
   });

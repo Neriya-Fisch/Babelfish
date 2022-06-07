@@ -12,7 +12,7 @@ socket.on('connect', (socket) => {
 
 export default function Chat() {
   return (
-    <div className='d-flex' style={{height: '100vh'}}>
+    <div className='d-flex' style={{height: '569px', width: '1360px'}}>
       <Dashboard socket={socket}
         className='flex-grow-1'
       />

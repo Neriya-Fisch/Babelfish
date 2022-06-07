@@ -20,8 +20,10 @@ import { Link, useNavigate,  } from "react-router-dom";
     return (
       <div>
         <div>
-          <Navbar bg="dark" variant={"dark"} expand="lg">
-            <Navbar.Brand href="/">BabelFish</Navbar.Brand>
+          <Navbar expand="lg" style={{ "background-color": "#3bb19b" }}>
+            <Navbar.Brand href="/" style={{ color: "white" }}>
+              BabelFish
+            </Navbar.Brand>
             <Navbar.Toggle aria-controls="navbarScroll" />
             <Navbar.Collapse id="navbarScroll">
               <Nav
@@ -29,25 +31,40 @@ import { Link, useNavigate,  } from "react-router-dom";
                 style={{ maxHeight: "100px" }}
                 navbarScroll
               >
-                <Nav.Link as={Link} to="/home">
-                  Home
+                <Nav.Link
+                  style={{
+                    color: "white",
+                  }}
+                  as={Link}
+                  to="/profile"
+                >
+                  Profile
                 </Nav.Link>
-                <Nav.Link as={Link} to="/about">
+                <Nav.Link
+                  style={{
+                    color: "white",
+                  }}
+                  as={Link}
+                  to="/about"
+                >
                   About
                 </Nav.Link>
-                <Nav.Link as={Link} to="/contacts">
+                <Nav.Link style={{ color: "white" }} as={Link} to="/contacts">
                   Contacts
                 </Nav.Link>
               </Nav>
             </Navbar.Collapse>
-              {localStorage.getItem("user") ?
-            <Nav>
-              <NavDropdown title={user && user.firstName + " " + user.lastName}>
-                <NavDropdown.Item onClick={logOut}>Logout</NavDropdown.Item>
-              </NavDropdown>
-            </Nav>
-            :null
-    }
+            {localStorage.getItem("user") ? (
+              <Nav>
+                <NavDropdown
+                  title={user && user.firstName + " " + user.lastName}
+                >
+                  <NavDropdown.Item style={{ width: "5vw" }} onClick={logOut}>
+                    Logout
+                  </NavDropdown.Item>
+                </NavDropdown>
+              </Nav>
+            ) : null}
           </Navbar>
         </div>
       </div>
