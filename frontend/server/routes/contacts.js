@@ -1,12 +1,8 @@
 const router = require("express").Router();
 const userNameByEmail = require("../models/userNameByEmail")
-const mongoose = require("mongoose");
-const connection = mongoose.createConnection(process.env.DB);
-const ContactsSchema = new mongoose.Schema({
-user_email: String,
-contacts: []
-});
-const Contacts = connection.model("Contacts", ContactsSchema);
+const friendReques = require("../models/friendRequest");
+const Contacts = require("../models/contacts");
+
 
 // post request to add new contact to the user contacts list
 router.post("/:user_email", async (req, res) => {
