@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 const connection = mongoose.createConnection(process.env.DB);
-const friendRequestSchema = new mongoose.Schema({
+const friendRequestsSchema = new mongoose.Schema({
   user_email: String,
   friend_requests: []  
 });
 
-const friendReques = connection.model("Friend requests", friendRequestSchema);
+const friendRequests = connection.model("Friend requests", friendRequestsSchema);
 
-module.exports = friendReques;
+module.exports = friendRequests;
