@@ -43,6 +43,9 @@ import "./NavBar.css";
                 >
                   About
                 </Nav.Link>
+                <Nav.Link style={{ color: "white" }} as={Link} to="/friend_requests">
+                  Friend Requests
+                </Nav.Link>
               </Nav>
             </Navbar.Collapse>
             {localStorage.getItem("user") ? (
