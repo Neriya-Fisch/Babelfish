@@ -28,7 +28,17 @@ export default function NewContacts({ closeModal }) {
         res = res.json();
         console.log(res);
         refreshPage();
-      } else alert(`The user with email "${reciver_user_email}" is not exist`);
+        // else alert the error mwssage
+      } else {
+        // if res number is 405 then the user is already in the contacts list
+        if (res.status == 405) {
+        alert("contact already in the contacts list");
+        }
+        // if res number is 404 then the user is not in the database
+        else if (res.status == 404) {
+        alert("user not found");    
+      }
+    }
     });
     closeModal();
   }

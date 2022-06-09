@@ -17,7 +17,12 @@ export default function Contacts() {
     .catch(err => console.log(err));
   };
 
-  getContacts();
+  // use effect to get the contacts
+  useEffect(() => {
+    getContacts();
+  }
+  , []);
+
 
   // return contacts list as link to chat by id
   return (

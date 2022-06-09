@@ -37,8 +37,6 @@ router.post("/requests/answer", async (req, res) => {
   if (answer == "accept") {
     const friend_request_name = await userNameByEmail(friend_request_email);
     const user_name = await userNameByEmail(user_email);
-    if (friend_request_name == null)
-      res.status(404).send({ message: "User is not exist" });
 
     Contacts.findOneAndUpdate(
       { user_email: user_email },
@@ -75,6 +73,7 @@ router.post("/:user_email", async (req, res) => {
   const user_name = await userNameByEmail(contactEmail);
   if (user_name == null) {
     res.status(404).send({ message: "User is not exist" });
+
   }
 
   friendRequests.findOneAndUpdate(
