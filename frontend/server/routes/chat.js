@@ -1,5 +1,6 @@
 const Messages = require("../models/messages");
 const { User } = require("../models/user");
+const {changeNewMessageStatus} = require("../models/contacts");
 
 // get user lang by user Email
 async function user_email_to_lang(user_email) {
@@ -94,7 +95,8 @@ module.exports = function (io) {
       pythonProcess.stdout.on("data", async (data) => {
         socket
         .to(user_name_to_id_map[reciver])
-        .emit("recive-message", data.toString());        
+        .emit("recive-message", data.toString());
+        changeNewMessageStatus(reciver, sender, true);
         save(data.toString(), reciver, sender, "in");
       });
     });
