@@ -113,4 +113,19 @@ router.get("/:user_email", async (req, res) => {
   res.send(query);
 });
 
+router.post("/remove/:user_email", async (req, res) => {
+  const userEmail = req.params.user_email;
+  const contactEmail = req.body.contactEmail;
+  await Contacts.updateOne(
+    { user_email: userEmail },
+    { $pull: { contacts: { email: contactEmail } } }
+  )
+    .then(function (user) {
+      res.send(200);
+    })
+    .catch(function (err) {
+      res.send(err);
+    });
+});
+
 module.exports = router;
