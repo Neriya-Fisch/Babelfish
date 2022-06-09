@@ -70,24 +70,41 @@ router.post("/requests/answer", async (req, res) => {
 router.post("/:user_email", async (req, res) => {
   const userEmail = req.params.user_email;
   const contactEmail = req.body.email;
-  const user_name = await userNameByEmail(contactEmail);
-  if (user_name == null) {
+  const contactName = await userNameByEmail(contactEmail);
+  var userContacts = await Contacts.findOne({
+    user_email: userEmail,
+  })
+    .select("contacts")
+    .then((data) => {
+      return data.contacts;
+    });
+  let isContactExist = false;
+  // Check if the contact is already a contact
+  userContacts.forEach((contact) => {
+    if (contact.email == contactEmail) isContactExist = true;
+  });
+  if (isContactExist) {
+    res
+      .status(405)
+      .send({ message: "The user is already on the contacts list" });
+  } else if (contactName == null) {
     res.status(404).send({ message: "User is not exist" });
-
-  }
-
-  friendRequests.findOneAndUpdate(
-    { user_email: contactEmail },
-    {
-      $push: {
-        friend_requests: userEmail,
+  } else if (userEmail == contactEmail) {
+    res.status(409).send({ message: "Can't add yourself" });
+  } else {
+    friendRequests.findOneAndUpdate(
+      { user_email: contactEmail },
+      {
+        $push: {
+          friend_requests: userEmail,
+        },
       },
-    },
-    { upsert: true, new: true },
-    function (error, user_details) {
-      if (!user_details) res.send(error);
-    }
-  );
+      { upsert: true, new: true },
+      function (error, user_details) {
+        if (!user_details) res.send(error);
+      }
+    );
+  }
 });
 
 router.get("/:user_email", async (req, res) => {
