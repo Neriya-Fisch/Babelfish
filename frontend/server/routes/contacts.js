@@ -42,8 +42,6 @@ router.post("/requests/answer", async (req, res) => {
   if (answer == "accept") {
     const friend_request_name = await userNameByEmail(friend_request_email);
     const user_name = await userNameByEmail(user_email);
-    if (friend_request_name == null)
-    res.status(404).send({ message: "User is not exist" });
 
     Contacts.findOneAndUpdate(
       { user_email: user_email},
@@ -74,6 +72,28 @@ router.post("/requests/answer", async (req, res) => {
 router.post("/:user_email", async (req, res) => {
   const userEmail = req.params.user_email
   const contactEmail = req.body.email;
+
+  // if contactEmail not in the registerd users, return error
+  const user_name = await userNameByEmail(contactEmail);
+  if (user_name == null){
+    res.status(404).send({ message: "User is not exist" });
+    return;
+  }
+
+  // if the contact is already in the contacts list, respone with an error
+  Contacts.findOne({ user_email: userEmail }, function (err, user_details) {
+    if (err) {
+      res.send(err);
+    } else if (user_details) {
+      for (var i = 0; i < user_details.contacts.length; i++) {
+        if (user_details.contacts[i].email == contactEmail) {
+          res.status(405).send({ message: "Contact is already in the contacts list" });
+          return;
+        }
+      }
+    }
+  });
+
   // if no friend request list for contactEmail, create one
   if (!friendRequests.some((friendRequest) => friendRequest.user_email == contactEmail)) {
     friendRequests.push({

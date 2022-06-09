@@ -114,6 +114,9 @@ export default function OpenConversation({socket}) {
   }, [isListening]);
 
       return (
+      reciverName === null ?
+      // center the text
+      <div class="center">Welcome! chat with someone</div> :
       <div className="d-flex flex-column flex-grow-1">
       <div className="flex-grow-1 overflow-auto">
         <div className="d-flex flex-column flex-grow-1" >
