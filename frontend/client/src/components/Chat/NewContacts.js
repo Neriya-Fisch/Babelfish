@@ -31,15 +31,15 @@ export default function NewContacts({ closeModal }) {
         // else alert the error mwssage
       } else {
         // if res number is 405 then the user is already in the contacts list
-        if (res.status == 405) {
+        if (res.status === 405) {
           alert("The user is already on the contacts list");
         }
         // if res number is 404 then the user is not in the database
-        else if (res.status == 404) {
+        else if (res.status === 404) {
           alert(`User with email "${reciver_user_email}" is not exist`);
         }
         // if res number is 407 then the user can't add himself
-        else if (res.status == 409) {
+        else if (res.status === 409) {
           alert("You can not add yourself");
         }
       }
