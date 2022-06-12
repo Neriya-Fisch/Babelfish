@@ -36,16 +36,6 @@ connection();
 app.use(express.json());
 app.use(cors());
 
-app.get("/", (req, res, next) => {
-  res.status(200).json({
-    status: "success",
-    data: {
-      name: "name of your app",
-      version: "0.1.0",
-    },
-  });
-});
-
 // routes
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
