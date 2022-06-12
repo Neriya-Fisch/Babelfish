@@ -1,8 +1,8 @@
 {
   "scripts": {
     "start": "concurrently \"npm run backend\" \"npm run client\"",
-    "client": "cd frontend/client && npm install && npm start",
-    "backend": "cd frontend && npm install && npm start",
+    "client": "cd frontend/client && npm start",
+    "backend": "cd frontend && npm start",
     "deploy": "concurrently \"npm run backend\" \"npm run client\""
   },
   "dependencies": {
