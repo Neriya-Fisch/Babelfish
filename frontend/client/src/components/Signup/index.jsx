@@ -27,7 +27,7 @@ const Signup = () => {
     e.preventDefault();
     try {
       console.log(data);
-      const url = "http://localhost:3001/api/users";
+      const url = "https://babel-fish-1.herokuapp.com/api/users";
       data.language = languages_map[data.language];
       const { data: res } = await axios.post(url, data);
       navigate("/login");

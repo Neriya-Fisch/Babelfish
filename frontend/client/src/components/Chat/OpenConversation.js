@@ -61,28 +61,29 @@ export default function OpenConversation({socket}) {
   useEffect(() => {
     var reciverEmail = window.location.pathname.split('/')[2]
     // get reciver name from server by Email, using GET request
-    fetch('http://localhost:3001/user_name/' + reciverEmail)
-    .then(res => res.json())
-    .then(data => {
-      var name = `${data[0].firstName} ${data[0].lastName}`
-      setReciverName(name)
-    })
-    .catch(err => console.log(err));
+    fetch("https://babel-fish-1.herokuapp.com/user_name/" + reciverEmail)
+      .then((res) => res.json())
+      .then((data) => {
+        var name = `${data[0].firstName} ${data[0].lastName}`;
+        setReciverName(name);
+      })
+      .catch((err) => console.log(err));
 
     // get user messages from server by user name and user id
     // setMessages(message_db)
-    fetch(`http://localhost:3001/messages/${user.email}/${reciverEmail}`)
-    .then(res => res.json())
-    .then(data => {
-      (data[0].user_messages).forEach(msg =>{
-        if(msg.partner_email == reciverEmail){
-          setMessages(msg.messages_history);
-          return;
-        }
-      }
-      );
-    })
-    .catch(err => console.log(err));
+    fetch(
+      `https://babel-fish-1.herokuapp.com/messages/${user.email}/${reciverEmail}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        data[0].user_messages.forEach((msg) => {
+          if (msg.partner_email == reciverEmail) {
+            setMessages(msg.messages_history);
+            return;
+          }
+        });
+      })
+      .catch((err) => console.log(err));
   }, []);
 
   useEffect(() => {

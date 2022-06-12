@@ -15,12 +15,12 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 
 // Add cors configatrion
-const corsOptions ={
-  origin:'http://localhost:3000', 
-  credentials:true,            //access-control-allow-credentials:true
-  optionSuccessStatus:200
-}
-app.use(cors(corsOptions));
+const corsOptions = {
+  origin: "https://babel-fish-1.herokuapp.com/",
+  credentials: true, //access-control-allow-credentials:true
+  optionSuccessStatus: 200,
+};
+// app.use(cors(corsOptions));
 
 // Add body parser
 const bodyParser = require('body-parser');
@@ -47,10 +47,10 @@ app.use("/user_name", userFromEmail);
 // using for chatBox consistent communication
 const io = require("socket.io")(3002, {
   cors: {
-    // TODO: change to all 
-    origin: ['http://localhost:3000', 'http://localhost:3003']
-  }
-})
+    // TODO: change to all
+    origin: ["https://babel-fish-1.herokuapp.com/"],
+  },
+});
 require("./routes/chat")(io)
 
 app.listen(PORT, () => {

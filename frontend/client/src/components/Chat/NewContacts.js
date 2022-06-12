@@ -15,7 +15,7 @@ export default function NewContacts({ closeModal }) {
 
     var reciver_user_email = userEmailRef.current.value;
     // using the server to add the user to the contacts list of the user
-    fetch("http://localhost:3001/contacts/" + user.email, {
+    fetch("https://babel-fish-1.herokuapp.com/contacts/" + user.email, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

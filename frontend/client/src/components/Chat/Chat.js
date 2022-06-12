@@ -5,7 +5,7 @@ import {io} from 'socket.io-client'
 import styles from "./styles.module.css";
 
 // create a socket connection
-const socket = io("http://localhost:3002");
+const socket = io("https://babel-fish-1.herokuapp.com/");
 socket.on('connect', (socket) => {
    console.log('socket connected', socket);
 })

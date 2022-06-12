@@ -15,18 +15,21 @@ export default function Requests() {
     console.log("answer", answer);
     const user_email = user.email;
     const fetchData = async () => {
-       return await fetch("http://localhost:3001/contacts/requests/answer", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          user_email: user_email,
-          friend_request_email: friend_request_email,
-          answer: answer,
-        }),
-      }).catch((err) => console.log(err));
+       return await fetch(
+         "https://babel-fish-1.herokuapp.com/contacts/requests/answer",
+         {
+           method: "POST",
+           headers: {
+             Accept: "application/json",
+             "Content-Type": "application/json",
+           },
+           body: JSON.stringify({
+             user_email: user_email,
+             friend_request_email: friend_request_email,
+             answer: answer,
+           }),
+         }
+       ).catch((err) => console.log(err));
     };
     fetchData().then((data) =>{
       setFriendRequests(data[0].friend_requests);
@@ -38,7 +41,9 @@ export default function Requests() {
   useEffect(() => {
     // fetch the contacts from the server
     const user_email = user.email;
-    fetch("http://localhost:3001/contacts/requests/" + user_email)
+    fetch(
+      "https://babel-fish-1.herokuapp.com/contacts/requests/" + user_email
+    )
       .then((res) => res.json())
       .then((data) => {
         setFriendRequests(data[0].friend_requests);

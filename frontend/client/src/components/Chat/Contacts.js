@@ -10,7 +10,7 @@ export default function Contacts() {
   // get the contacts from the server function
   const getContacts = () => {
     // fetch the contacts from the server
-    fetch("http://localhost:3001/contacts/" + user.email)
+    fetch("https://babel-fish-1.herokuapp.com/contacts/" + user.email)
       .then((res) => res.json())
       .then((data) => {
         setContacts(data[0].contacts);
@@ -19,16 +19,19 @@ export default function Contacts() {
   };
 
   function removeContact(contactEmail) {
-    fetch("http://localhost:3001/contacts/remove/" + user.email, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        contactEmail: contactEmail,
-      }),
-    }).catch((err) => console.log(err));
+    fetch(
+      "https://babel-fish-1.herokuapp.com/contacts/remove/" + user.email,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          contactEmail: contactEmail,
+        }),
+      }
+    ).catch((err) => console.log(err));
   }
 
   // use effect to get the contacts
@@ -37,12 +40,17 @@ export default function Contacts() {
 
     if (reciverEmail !== null) {
       // using ("read/:user_email/:contact_email/") endpoint to put false to new_message
-      fetch('http://localhost:3001/contacts/read/' + user.email + '/' + reciverEmail)
-      .then(res => res.json())
-      .then(data => {
-        console.log(data)
-      })
-      .catch(err => console.log(err));
+      fetch(
+        "https://babel-fish-1.herokuapp.com/contacts/read/" +
+          user.email +
+          "/" +
+          reciverEmail
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((err) => console.log(err));
   }
 
     getContacts();
