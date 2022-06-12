@@ -61,5 +61,4 @@ require("./routes/chat")(io)
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
-  console.log(` qqq ${process.env.NODE_ENV}`);
 });
