@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import { Button, Form, InputGroup } from 'react-bootstrap';
 import { useSpeechSynthesis } from "react-speech-kit";
 
@@ -28,11 +28,14 @@ export default function OpenConversation({socket}) {
   const [messages, setMessages] = useState([]);
   const [isListening, setIsListening] = useState(false)
   const [voiceIndex, setVoiceIndex] = useState(null);
+  const messagEnd = useRef(null)
   const voice = voices_lang[voiceIndex] || null;
 
-  socket.on("recive-message", (message_in) => {
-    console.log(message_in)
-    addMessage({direction: 'in', message_info: message_in})
+  socket.on("recive-message", (message_in, senderEmail) => {
+    var reciverEmail = window.location.pathname.split('/')[2]
+    if(reciverEmail === senderEmail) {
+      addMessage({direction: 'in', message_info: message_in})
+    }
   })
 
   // Add message to the message list
@@ -113,6 +116,9 @@ export default function OpenConversation({socket}) {
     }
   }, [isListening]);
 
+  useEffect(() => {
+      messagEnd.current?.scrollIntoView()
+  }, [messages]);
       return (
       reciverName === null ?
       // center the text
@@ -139,6 +145,7 @@ export default function OpenConversation({socket}) {
       </div>
       </div>
         ))}
+      <div ref={messagEnd} />
       </div>
       </div>
         <Form onSubmit={handleSubmit}>

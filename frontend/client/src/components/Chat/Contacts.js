@@ -5,6 +5,7 @@ const user = JSON.parse(localStorage.getItem("user"));
 
 export default function Contacts() {
   const [contacts, setContacts] = useState([]);
+  const reciverEmail = window.location.pathname.split('/')[2]
 
   // get the contacts from the server function
   const getContacts = () => {
@@ -32,6 +33,18 @@ export default function Contacts() {
 
   // use effect to get the contacts
   useEffect(() => {
+    var reciverEmail = window.location.pathname.split('/')[2]
+
+    if (reciverEmail !== null) {
+      // using ("read/:user_email/:contact_email/") endpoint to put false to new_message
+      fetch('http://localhost:3001/contacts/read/' + user.email + '/' + reciverEmail)
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+      })
+      .catch(err => console.log(err));
+  }
+
     getContacts();
   }, [removeContact]);
 
@@ -41,6 +54,7 @@ export default function Contacts() {
       {contacts.map((contact) => (
         <ListGroup.Item key={contact.email}>
           <a href={`/chat/${contact.email}`}>{contact.name}</a>
+          {contact.new_message && reciverEmail != contact.email ? <span> 😀 </span> : ""}
           <button
             style={{ float: "right" }}
             onClick={() => removeContact(contact.email)}

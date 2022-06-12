@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const userNameByEmail = require("../models/userNameByEmail");
 const friendRequests = require("../models/friendRequest");
-const Contacts = require("../models/contacts");
+const {Contacts} = require("../models/contacts");
 
 // function to remove the user from the friend requests list
 async function removeUserFromFriendRequests(user_email, friend_email) {
@@ -39,21 +39,17 @@ router.post("/requests/answer", async (req, res) => {
     const user_name = await userNameByEmail(user_email);
 
     Contacts.findOneAndUpdate(
-      { user_email: user_email },
-      {
-        $push: {
-          contacts: { name: friend_request_name, email: friend_request_email },
-        },
-      },
-      { upsert: true, new: true },
+      { user_email: user_email},
+      { $push: { contacts: { name: friend_request_name, email: friend_request_email, new_message: false } } },
+      { upsert: true, new: true},
       function (error, user_details) {
         if (!user_details) res.send(error);
       }
     );
     Contacts.findOneAndUpdate(
-      { user_email: friend_request_email },
-      { $push: { contacts: { name: user_name, email: user_email } } },
-      { upsert: true, new: true },
+      { user_email: friend_request_email},
+      { $push: { contacts: { name: user_name, email: user_email, new_message: false } } },
+      { upsert: true, new: true},
       function (error, user_details) {
         if (!user_details) res.send(error);
       }
@@ -109,7 +105,46 @@ router.post("/:user_email", async (req, res) => {
 
 router.get("/:user_email", async (req, res) => {
   const userEmail = req.params.user_email;
-  var query = await Contacts.find({ user_email: userEmail }).select("contacts");
+  var query = await Contacts.find({ user_email: userEmail}).select("contacts");
+  res.send(query);
+});
+
+// change new_message to false for all contacts of the user
+router.post("/:user_email/read", async (req, res) => {
+  const userEmail = req.params.user_email;
+  Contacts.findOneAndUpdate(
+    { user_email: userEmail},
+    { $set: { "contacts.$.new_message": false } },
+    { new: true },
+    function (error, user_details) {
+      if (!user_details)
+        res.send(error);
+    }
+  );
+  var query = await Contacts.find({ user_email: userEmail}).select('contacts');
+  res.send(query);
+});
+
+// Change contact_email new_message to true or false for the user
+function changeNewMessageStatus(user_email, contact_email, new_message) {
+  Contacts.findOneAndUpdate(
+    { user_email: user_email, "contacts.email": contact_email },
+    { $set: { "contacts.$.new_message": new_message } },
+    { new: true },
+    function (error, user_details) {
+      if (!user_details)
+        console.log(error);
+    }
+  );
+}
+
+// GET request to change new_message status to false
+router.get("/read/:user_email/:contact_email/", async (req, res) => {
+  const userEmail = req.params.user_email;
+  const contactEmail = req.params.contact_email;
+  changeNewMessageStatus(userEmail, contactEmail, false);
+  // response with new contact list
+  var query = await Contacts.find({ user_email: userEmail}).select('contacts');
   res.send(query);
 });
 
