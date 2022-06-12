@@ -35,11 +35,11 @@ connection();
 // middlewares
 app.use(express.json());
 app.use(cors());
-console.log({ path: __dirname + "/index.js" });
+console.log("app/frontend/client/src/index.js");
 
-// app.get("*", function (req, res) {
-//   res.sendFile(path.join(__dirname, "../client/public", "index.html"));
-// });
+app.get("*", function (req, res) {
+  res.sendFile("app/frontend/client/src/index.js");
+});
 
 
 // routes
