@@ -1,8 +1,8 @@
 {
   "scripts": {
     "start": "concurrently \"npm run backend\" \"npm run client\"",
-    "client": "cd frontend/client && npm install && npm build && npm start",
-    "backend": "cd frontend && npm install && npm start"
+    "client": "cd frontend/client && npm build && npm start",
+    "backend": "cd frontend  && npm start"
   },
   "dependencies": {
     "axios": "^0.27.2",
