@@ -36,6 +36,11 @@ connection();
 app.use(express.json());
 app.use(cors());
 
+app.get("*", function (req, res) {
+  res.sendFile(path.join(__dirname, "../client/public", "index.html"));
+});
+
+
 // routes
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
