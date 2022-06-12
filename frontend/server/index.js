@@ -1,5 +1,5 @@
 require("dotenv").config({path:__dirname+'/.env'});
-
+const path = require("path");
 const express = require("express");
 const connection = require("./db");
 const userRoutes = require("./routes/users");
@@ -35,10 +35,10 @@ connection();
 // middlewares
 app.use(express.json());
 app.use(cors());
-console.log({ path: __dirname + "/index.js" });
+console.log(path.join(__dirname, "../client/src/index.js"));
 
 app.get("*", function (req, res) {
-  res.sendFile({ path: __dirname + "../client/src/index.js" });
+  res.sendFile("/app/frontend/client/src/index.js");
 });
 
 
