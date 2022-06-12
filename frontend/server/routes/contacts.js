@@ -140,7 +140,6 @@ function changeNewMessageStatus(user_email, contact_email, new_message) {
 
 // GET request to change new_message status to false
 router.get("/read/:user_email/:contact_email/", async (req, res) => {
-  console.log("in get request");
   const userEmail = req.params.user_email;
   const contactEmail = req.params.contact_email;
   changeNewMessageStatus(userEmail, contactEmail, false);

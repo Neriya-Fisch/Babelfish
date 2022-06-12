@@ -30,9 +30,11 @@ export default function OpenConversation({socket}) {
   const [voiceIndex, setVoiceIndex] = useState(null);
   const voice = voices_lang[voiceIndex] || null;
 
-  socket.on("recive-message", (message_in) => {
-    console.log(message_in)
-    addMessage({direction: 'in', message_info: message_in})
+  socket.on("recive-message", (message_in, senderEmail) => {
+    var reciverEmail = window.location.pathname.split('/')[2]
+    if(reciverEmail === senderEmail) {
+      addMessage({direction: 'in', message_info: message_in})
+    }
   })
 
   // Add message to the message list

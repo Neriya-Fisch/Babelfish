@@ -95,7 +95,7 @@ module.exports = function (io) {
       pythonProcess.stdout.on("data", async (data) => {
         socket
         .to(user_name_to_id_map[reciver])
-        .emit("recive-message", data.toString());
+        .emit("recive-message", data.toString(), sender);
         changeNewMessageStatus(reciver, sender, true);
         save(data.toString(), reciver, sender, "in");
       });
