@@ -8,6 +8,7 @@ import {
   Nav,
 } from "react-bootstrap";
 import { Link, useNavigate,  } from "react-router-dom";
+import logo from "../Images/NavBarLogo.png";
 
 
  class NavbarComp extends Component {
@@ -21,8 +22,9 @@ import { Link, useNavigate,  } from "react-router-dom";
       <div>
         <div>
           <Navbar expand="lg" style={{ "background-color": "#3bb19b" }}>
+              <img src={logo} width={45} height={35}></img>
             <Navbar.Brand href="/" style={{ color: "white" }}>
-              BabelFish
+              Babel Fish
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="navbarScroll" />
             <Navbar.Collapse id="navbarScroll">
