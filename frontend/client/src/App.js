@@ -7,12 +7,13 @@ import Chat from "./components/Chat/Chat.js";
 import NavbarComp from "./components/NavbarComp";
 import Profile from "./components/Profile";
 import About from "./components/About";
+import "./App.css"
 
 function App() {
   const user = localStorage.getItem("user");
   return (
-    <div className="App">
-      { user && <NavbarComp />}
+    <div className="fill-window">
+      {user && <NavbarComp />}
 
       <Routes>
         {user && <Route path="/" exact element={<Chat />} />}
