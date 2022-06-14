@@ -1,0 +1,20 @@
+.navbar a{
+  color: white;
+  width: '10px'
+}
+
+.dropdown-menu{
+  text-align:center;
+}
+
+.navbar a:hover {
+  color: white;
+}
+
+.navbar a[aria-expanded="true"]{
+  color: white;
+}
+
+.navbar a[aria-expanded="false"]{
+  color: white;
+}
