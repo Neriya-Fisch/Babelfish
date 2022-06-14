@@ -142,7 +142,7 @@ function changeNewMessageStatus(user_email, contact_email, new_message) {
 router.get("/read/:user_email/:contact_email/", async (req, res) => {
   const userEmail = req.params.user_email;
   const contactEmail = req.params.contact_email;
-  changeNewMessageStatus(userEmail, contactEmail, false);
+  // changeNewMessageStatus(userEmail, contactEmail, false);
   // response with new contact list
   var query = await Contacts.find({ user_email: userEmail}).select('contacts');
   res.send(query);

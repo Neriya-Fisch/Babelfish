@@ -9,6 +9,7 @@ import {
 } from "react-bootstrap";
 import { Link, useNavigate,  } from "react-router-dom";
 import logo from "../Images/NavBarLogo.png";
+import "./NavBar.css";
 
 
  class NavbarComp extends Component {
@@ -22,7 +23,7 @@ import logo from "../Images/NavBarLogo.png";
       <div>
         <div>
           <Navbar expand="lg" style={{ "background-color": "#3bb19b" }}>
-              <img src={logo} width={45} height={35}></img>
+            <img src={logo} width={45} height={35}></img>
             <Navbar.Brand href="/" style={{ color: "white" }}>
               Babel Fish
             </Navbar.Brand>
@@ -33,14 +34,8 @@ import logo from "../Images/NavBarLogo.png";
                 style={{ maxHeight: "100px" }}
                 navbarScroll
               >
-                <Nav.Link
-                  style={{
-                    color: "white",
-                  }}
-                  as={Link}
-                  to="/profile"
-                >
-                  Profile
+                <Nav.Link style={{ color: "white" }} as={Link} to="/contacts">
+                  Contacts
                 </Nav.Link>
                 <Nav.Link
                   style={{
@@ -51,21 +46,26 @@ import logo from "../Images/NavBarLogo.png";
                 >
                   About
                 </Nav.Link>
-                <Nav.Link style={{ color: "white" }} as={Link} to="/contacts">
-                  Contacts
-                </Nav.Link>
               </Nav>
             </Navbar.Collapse>
             {localStorage.getItem("user") ? (
-              <Nav>
-                <NavDropdown
-                  title={user && user.firstName + " " + user.lastName}
+              <NavDropdown
+                title={user && user.firstName + " " + user.lastName}
+                align="end"
+                id="basic-nav-dropdown"
+                flip
+              >
+                <NavDropdown.Item
+                  style={{ color: "black" }}
+                  as={Link}
+                  to="/profile"
                 >
-                  <NavDropdown.Item style={{ width: "5vw" }} onClick={logOut}>
-                    Logout
-                  </NavDropdown.Item>
-                </NavDropdown>
-              </Nav>
+                  My Profile
+                </NavDropdown.Item>
+                <NavDropdown.Item style={{ color: "black" }} onClick={logOut}>
+                  Logout
+                </NavDropdown.Item>
+              </NavDropdown>
             ) : null}
           </Navbar>
         </div>
