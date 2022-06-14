@@ -2,13 +2,10 @@ import React, { Component, useEffect } from "react";
 import {
   Navbar,
   NavDropdown,
-  Form,
-  FormControl,
-  Button,
   Nav,
 } from "react-bootstrap";
 import { Link, useNavigate,  } from "react-router-dom";
-import logo from "../Images/NavBarLogo.png";
+import logo from "../../Images/NavBarLogo.png";
 import "./NavBar.css";
 
 
