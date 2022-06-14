@@ -4,7 +4,7 @@ import Signup from "./components/Signup";
 import Login from "./components/Login";
 import Logout from "./components/Logout";
 import Chat from "./components/Chat/Chat.js";
-import NavbarComp from "./components/NavbarComp";
+import NavbarComp from "./components/NavBar/NavBar";
 import Profile from "./components/Profile";
 import About from "./components/About";
 import "./App.css"
