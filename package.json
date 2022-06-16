@@ -12,9 +12,11 @@
     "cors": "^2.8.5",
     "ejs": "^3.1.8",
     "multer": "^1.4.5-lts.1",
+    "object-assign": "^4.1.1",
     "react": "^16.14.0",
     "react-dom": "^16.8.0",
     "react-speech-kit": "^3.0.1",
-    "socket.io-client": "^4.4.1"
+    "socket.io-client": "^4.4.1",
+    "source-map-loader": "^4.0.0"
   }
 }
