@@ -48,6 +48,7 @@ export default function Requests() {
 
   return (
     <div>
+      <div>Hello!</div>
       <ul>
         {friend_requests.map((friend_request, index) => (
           <li key={index}>

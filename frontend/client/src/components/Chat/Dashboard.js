@@ -28,38 +28,24 @@ export default function Dashboard({socket}) {
 
   return (
     <div style={{ width: '250px' }} className="d-flex flex-column">
-      <Tab.Container activeKey={activeKey} onSelect={setActiveKey}>
         <Nav variant="tabs" className={'justify-content-center'}>
-          <Nav.Item>
-            <Nav.Link eventKey={CONVERSATIONS}>Friend Requests
-            </Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link eventKey={CONTACTS}>contacts
-            </Nav.Link>
-          </Nav.Item>
-        </Nav>
+          </Nav>
       <Tab.Content className="border-right overflow-auto flex-grow-1">
-        <Tab.Pane eventKey={CONVERSATIONS}>
-          <Requests socket={socket}/>
-        </Tab.Pane>
-        <Tab.Pane eventKey={CONTACTS}>
-          <Contacts/>
-        </Tab.Pane>
+
+      <Contacts/>
       </Tab.Content>
-      <div className="p-2 border-top border-right small">
+        <div className="p-2 border-top border-right small">
       <h5>Hello {user.firstName + " " + user.lastName}</h5>
       </div>
       <Button className='rounded-0' onClick={() => setmodalOpen(true)}>
         New Friend Request
       </Button>
-      </Tab.Container>
       <Modal show={modalOpen} onHide={closeModal}>
         {
           <NewContacts closeModal={closeModal}/>
         }
       </Modal>
-    
+          
     </div>
   )
 }

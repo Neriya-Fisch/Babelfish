@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import Logout from "./components/Logout";
+import Requests from "./components/Chat/Requests";
 import Chat from "./components/Chat/Chat.js";
 import NavbarComp from "./components/NavBar/NavBar";
 import Profile from "./components/Profile";
@@ -19,6 +20,7 @@ function App() {
         {user && <Route path="/" exact element={<Chat />} />}
         <Route path="/signup" exact element={<Signup />} />
         <Route path="/profile" exact element={<Profile />} />
+        <Route path="/friend_requests" exact element={<Requests />} />
         <Route path="/about" exact element={<About />} />
         <Route path="/login" exact element={<Login />} />
         <Route path="/logout" exact element={<Logout />} />

@@ -53,7 +53,7 @@ export default function Contacts() {
       {contacts.map((contact) => (
         <ListGroup.Item key={contact.email}>
           <a href={`/chat/${contact.email}`}>{contact.name}</a>
-          {contact.new_message && reciverEmail != contact.email ? <span> 😀 </span> : ""}
+          {contact.new_message && reciverEmail != contact.email ? <span> 📩 </span> : ""}
           <button
             style={{ float: "right" }}
             onClick={() => removeContact(contact.email)}
