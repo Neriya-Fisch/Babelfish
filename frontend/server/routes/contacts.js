@@ -132,8 +132,6 @@ function changeNewMessageStatus(user_email, contact_email, new_message) {
     { $set: { "contacts.$.new_message": new_message } },
     { new: true },
     function (error, user_details) {
-      if (!user_details)
-        console.log(error);
     }
   );
 }

@@ -28,7 +28,7 @@ export default function Contacts() {
       body: JSON.stringify({
         contactEmail: contactEmail,
       }),
-    }).catch((err) => console.log(err));
+    })
   }
 
   // use effect to get the contacts
@@ -40,7 +40,6 @@ export default function Contacts() {
       fetch('http://localhost:3001/contacts/read/' + user.email + '/' + reciverEmail)
       .then(res => res.json())
       .then(data => {
-        console.log(data)
       })
       .catch(err => console.log(err));
   }
