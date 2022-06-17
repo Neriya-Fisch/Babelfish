@@ -55,7 +55,8 @@ export default function Contacts() {
           <a href={`/chat/${contact.email}`}>{contact.name}</a>
           {contact.new_message && reciverEmail != contact.email ? <span> 📩 </span> : ""}
           <button
-            style={{ float: "right" }}
+          
+            style={{ float: "right", 'border-radius': '12px'}}
             onClick={() => removeContact(contact.email)}
           >
             Remove
