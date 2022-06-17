@@ -12,18 +12,19 @@ socket.on('connect', (socket) => {
 
 export default function Chat() {
   return (
-    <div className='d-flex' style={{height: '569px', width: '1360px'}}>
-      <Dashboard socket={socket}
-        className='flex-grow-1'
-      />
-      <OpenConversation socket={socket}/>
-      <div className={styles.main_container}>
-  </div>
-
-
+    <div
+      className="d-flex"
+      style={{
+        height: "569px",
+        width: "1360px",
+        "background-color": "#ecf5f3",
+      }}
+    >
+      <Dashboard socket={socket} className="flex-grow-1" />
+      <OpenConversation socket={socket} />
+      <div className={styles.main_container}></div>
     </div>
-
-    )
+  );
 }
 
 

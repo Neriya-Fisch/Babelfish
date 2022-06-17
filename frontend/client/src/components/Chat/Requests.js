@@ -47,7 +47,7 @@ export default function Requests() {
   }, [friend_requests]);
 
   return (
-    <div>
+    <div style={{ "background-color": "#ecf5f3" }}>
       <div>Hello!</div>
       <ul>
         {friend_requests.map((friend_request, index) => (
