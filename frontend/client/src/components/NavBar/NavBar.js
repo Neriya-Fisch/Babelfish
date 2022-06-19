@@ -31,8 +31,11 @@ import "./NavBar.css";
                 style={{ maxHeight: "100px" }}
                 navbarScroll
               >
-                <Nav.Link style={{ color: "white" }} as={Link} to="/contacts">
-                  Contacts
+                <Nav.Link style={{ color: "white" }} as={Link} to="/">
+                  Dashboard
+                </Nav.Link>
+                <Nav.Link style={{ color: "white" }} as={Link} to="/friend_requests">
+                  Friend Requests
                 </Nav.Link>
                 <Nav.Link
                   style={{
@@ -42,9 +45,6 @@ import "./NavBar.css";
                   to="/about"
                 >
                   About
-                </Nav.Link>
-                <Nav.Link style={{ color: "white" }} as={Link} to="/friend_requests">
-                  Friend Requests
                 </Nav.Link>
               </Nav>
             </Navbar.Collapse>

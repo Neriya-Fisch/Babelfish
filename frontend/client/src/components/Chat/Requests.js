@@ -48,7 +48,10 @@ export default function Requests() {
 
   return (
     <div style={{ "background-color": "#ecf5f3" }}>
-      <div>Hello!</div>
+      <div>Hello {user.firstName} {user.lastName}!</div>
+      {(friend_requests.length === 0) ? (
+        <h1>You have no new Friend Requests</h1>
+      ): null}
       <ul>
         {friend_requests.map((friend_request, index) => (
           <li key={index}>
