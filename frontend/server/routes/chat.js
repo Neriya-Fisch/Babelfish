@@ -93,13 +93,19 @@ module.exports = function (io) {
         reciver_lang,
       ]);
       pythonProcess.stdout.on("data", async (data) => {
+        var translateMessage = data.toString()
         socket
         .to(user_name_to_id_map[reciver])
-        .emit("recive-message", data.toString(), sender);
+        .emit("recive-message", translateMessage, sender);
         changeNewMessageStatus(reciver, sender, true);
-        save(data.toString(), reciver, sender, "in");
+        save(translateMessage, reciver, sender, "in");
       });
+      pythonProcess.stderr.on("data", (data) => {
+        console.log(`stderr: ${data}`);
+      }
+      );
     });
+    
     socket.on("choose-user-name", (user_email) => {
       user_name_to_id_map[user_email] = socket.id;
     });
