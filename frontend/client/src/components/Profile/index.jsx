@@ -15,16 +15,28 @@ const Profile = () => {
       <div className={styles.left}>
         <div className={styles.img_container}>
           {user.gender == "Male" ? (
-            <img src={generic_male} width={230} height={230} justify="center"></img>
+            <div className={styles.img}>
+              <img
+                src={generic_male}
+                width={230}
+                height={230}
+                justify="center"
+              ></img>
+            </div>
           ) : (
             <div className={styles.img}>
-              <img src={generic_female} width={230} height={230}></img>
+              <img
+                src={generic_female}
+                width={230}
+                height={230}
+                justify="center"
+              ></img>
             </div>
           )}
-        <br></br>
-        <h1>
-          {user.firstName} {user.lastName}
-        </h1>
+          <br></br>
+          <h1>
+            {user.firstName} {user.lastName}
+          </h1>
         </div>
       </div>
       <div className={styles.right}>
