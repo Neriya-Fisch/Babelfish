@@ -88,7 +88,7 @@ module.exports = function (io) {
         return lang;
       });
       const pythonProcess = spawn("python", [
-        "../translate.py",
+        "server/translate/translate.py",
         message,
         reciver_lang,
       ]);

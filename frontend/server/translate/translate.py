@@ -1,4 +1,4 @@
-from Backend.TextTranslator import TextTranslator
+from TextTranslator import TextTranslator
 import sys
 
 
