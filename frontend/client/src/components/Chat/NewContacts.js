@@ -49,7 +49,7 @@ export default function NewContacts({ closeModal }) {
 
   return (
     <>
-      <Modal.Header closeButton>Add Contact</Modal.Header>
+      <Modal.Header closeButton>Send a Friend Request</Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
           <Form.Group>

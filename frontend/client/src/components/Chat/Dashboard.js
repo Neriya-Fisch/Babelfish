@@ -35,10 +35,10 @@ export default function Dashboard({socket}) {
       <Contacts/>
       </Tab.Content>
         <div className="p-2 border-top border-right small">
-      <h5>Hello {user.firstName + " " + user.lastName}</h5>
+      <h3>Hello {user.firstName + " " + user.lastName}</h3>
       </div>
       <Button className='rounded-0' onClick={() => setmodalOpen(true)}>
-        New Friend Request
+        Add Contact
       </Button>
       <Modal show={modalOpen} onHide={closeModal}>
         {

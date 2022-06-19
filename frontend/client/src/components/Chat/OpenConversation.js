@@ -119,69 +119,93 @@ export default function OpenConversation({socket}) {
   useEffect(() => {
       messagEnd.current?.scrollIntoView()
   }, [messages]);
-      return (
-      reciverName === null ?
-      // center the text
-      <div class="center">Welcome! chat with someone</div> :
-      <div className="d-flex flex-column flex-grow-1">
-        <div className="d-flex flex-column flex-grow-1" >
-        Converation with {reciverName}</div>
-      <div className="flex-grow-1 overflow-auto">
-      </div>
-      <div className="flex-grow-1 overflow-auto">
-        <div className="d-flex flex-column align-items-start justify-content-end px-3">
-      {messages.map(message => (
-      <div
-      className={`my-1 d-flex flex-column ${message.direction === 'out' ? 'align-self-end align-items-end' : 'align-items-start'}`}
-      >
-      <span 
-        className={`rounded px-2 py-1 ${message.direction === 'out' ? 'bg-primary text-white' : 'border'}`}>
-        {message.message_info}
-      </span >
-      <div className={`text-muted small ${message.direction === 'out' ? 'text-right' : ''}`}>
-                  {message.direction === 'in' ? reciverName : 'You'}
-      <Button variant="outline-primary" onClick={() => { speak({text : message.message_info, voice})}}
-      >Listen</Button>
-      </div>
-      </div>
-        ))}
-      <div ref={messagEnd} />
-      </div>
-      </div>
-        <Form onSubmit={handleSubmit}>
-          <Form.Group className="m-2">
-            <InputGroup>
-              <Form.Control
-              as="textarea"
-              required
-              value={text}
-              onChange={e => setText(e.target.value)}
-              style={{height: '75px', resize: 'none'}}
-              />
-              <Button onClick={() => setIsListening(!isListening)} style={{backgroundColor: isListening ? 'red' : 'green'}}>
-              {isListening ? 'Stop' : 'Record'}
-              </Button>
-              <Button type="submit" disabled={!text}>Send</Button>
-            </InputGroup>
-          </Form.Group>
-        </Form>
-      <select
-      id="voice"
-      name="voice"
-      value={voiceIndex || ''}
-      onChange={(event) => {
-        console.log(voices[event.target.value].lang)
-        mic.lang = voices[event.target.value].lang
-        setVoiceIndex(event.target.value);
-      }}>
-      <option value="">Default</option>
-      {voices_lang.map((option, index) => (
-        <option key={option.voiceURI} value={index}>
-          {option.lang} - {option.name}
-        </option>
-      ))}
-    </select>
-    </div>
-  )
+      return reciverName === null ? (
+        // center the text
+        <h2 style={{ "margin-left": "20%" }}>Welcome! chat with someone</h2>
+      ) : (
+        <div className="d-flex flex-column flex-grow-1">
+          <h2 style={{ "text-align": "center" }}>
+            Chating with: {reciverName}
+          </h2>
+          <div className="flex-grow-1 overflow-auto">
+            <div className="d-flex flex-column align-items-start justify-content-end px-3">
+              {messages.map((message) => (
+                <div
+                  className={`my-1 d-flex flex-column ${
+                    message.direction === "out"
+                      ? "align-self-end align-items-end"
+                      : "align-items-start"
+                  }`}
+                >
+                  <span
+                    className={`rounded px-2 py-1 ${
+                      message.direction === "out"
+                        ? "bg-primary text-white"
+                        : "border"
+                    }`}
+                  >
+                    {message.message_info}
+                  </span>
+                  <div
+                    className={`text-muted small ${
+                      message.direction === "out" ? "text-right" : ""
+                    }`}
+                  >
+                    {message.direction === "in" ? reciverName : "You"}
+                    <Button
+                      variant="outline-primary"
+                      onClick={() => {
+                        speak({ text: message.message_info, voice });
+                      }}
+                    >
+                      Listen
+                    </Button>
+                  </div>
+                </div>
+              ))}
+              <div ref={messagEnd} />
+            </div>
+          </div>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="m-2">
+              <InputGroup>
+                <Form.Control
+                  as="textarea"
+                  required
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                  style={{ height: "75px", resize: "none" }}
+                />
+                <Button
+                  onClick={() => setIsListening(!isListening)}
+                  style={{ backgroundColor: isListening ? "red" : "green" }}
+                >
+                  {isListening ? "Stop" : "Record"}
+                </Button>
+                <Button type="submit" disabled={!text}>
+                  Send
+                </Button>
+              </InputGroup>
+            </Form.Group>
+          </Form>
+          <select
+            id="voice"
+            name="voice"
+            value={voiceIndex || ""}
+            onChange={(event) => {
+              console.log(voices[event.target.value].lang);
+              mic.lang = voices[event.target.value].lang;
+              setVoiceIndex(event.target.value);
+            }}
+          >
+            <option value="">Default</option>
+            {voices_lang.map((option, index) => (
+              <option key={option.voiceURI} value={index}>
+                {option.lang} - {option.name}
+              </option>
+            ))}
+          </select>
+        </div>
+      );
 }
 

@@ -50,9 +50,10 @@ export default function Contacts() {
   // return contacts list as link to chat by id
   return (
     <ListGroup>
+      <h2>My Contacts</h2>
       {contacts.map((contact) => (
         <ListGroup.Item key={contact.email} style={{'background-color': '#ecf5f3'}}>
-          <a href={`/chat/${contact.email}`}>{contact.name}</a>
+          <a href={`/chat/${contact.email}`} style={{color: 'black'}}>{contact.name}</a>
           {contact.new_message && reciverEmail != contact.email ? <span> 📩 </span> : ""}
           <button
           
