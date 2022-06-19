@@ -18,11 +18,6 @@ export default function OpenConversation({socket}) {
   const { speak, voices} = useSpeechSynthesis();
   const voices_lang = voices.filter(voice => voice.lang.includes(user_lang))
   
-  // if voice_lang is empty, add the user language.
-  // the language is not supported at the moment for TTS engine
-  if (voices_lang.length === 0) {
-    voices_lang.push({lang: user_lang, name: 'not supporting text to speech yet'})
-  }
   const [reciverName, setReciverName] = useState(null);
   const [text, setText] = useState("");
   const [messages, setMessages] = useState([]);
@@ -152,6 +147,7 @@ export default function OpenConversation({socket}) {
                     }`}
                   >
                     {message.direction === "in" ? reciverName : "You"}
+                    {voices_lang.length === 0 ? null :
                     <Button
                       variant="outline-primary"
                       onClick={() => {
@@ -159,7 +155,7 @@ export default function OpenConversation({socket}) {
                       }}
                     >
                       Listen
-                    </Button>
+                    </Button>}
                   </div>
                 </div>
               ))}
@@ -188,6 +184,7 @@ export default function OpenConversation({socket}) {
               </InputGroup>
             </Form.Group>
           </Form>
+          {voices_lang.length === 0 ? null :
           <select
             id="voice"
             name="voice"
@@ -204,7 +201,7 @@ export default function OpenConversation({socket}) {
                 {option.lang} - {option.name}
               </option>
             ))}
-          </select>
+          </select>}
         </div>
       );
 }
