@@ -35,7 +35,9 @@ const Login = () => {
       <div className={styles.login_form_container}>
         <div className={styles.left}>
           <form className={styles.form_container} onSubmit={handleSubmit}>
-            <img src={logo} width={270} height={270}></img>
+            <img src={logo} width={230} height={200}></img>
+            <br></br>
+            <br></br>
             <h1>Login to Your Account</h1>
             <input
               type="email"
