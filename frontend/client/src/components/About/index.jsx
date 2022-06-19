@@ -25,6 +25,7 @@ const About = () => {
           language, and vice versa.
         </h4>
       </div>
+        <img src={logo} style={{'margin-left': '43%', width: '150px'}}></img>
     </div>
   );
 };
