@@ -1,7 +1,7 @@
-import languages_map from "../../Data/languages.json";
+import languagesMap from "../../Data/languages.json";
 import styles from "./styles.module.css";
-import generic_male from "../../Images/generic male.jpg";
-import generic_female from "../../Images/generic female.jpg";
+import genericMale from "../../Images/generic male.jpg";
+import genericFemale from "../../Images/generic female.jpg";
 
 function getMapKey(map, value){
   return Object.keys(map).find((key) => map[key] === value);
@@ -17,7 +17,7 @@ const Profile = () => {
           {user.gender === "Male" ? (
             <div className={styles.img}>
               <img
-                src={generic_male}
+                src={genericMale}
                 width={230}
                 height={230}
                 justify="center"
@@ -26,7 +26,7 @@ const Profile = () => {
           ) : (
             <div className={styles.img}>
               <img
-                src={generic_female}
+                src={genericFemale}
                 width={230}
                 height={230}
                 justify="center"
@@ -34,7 +34,7 @@ const Profile = () => {
             </div>
           )}
           <br></br>
-          <h2 style={{color: 'white'}}>
+          <h2 style={{ color: "white" }}>
             {user.firstName} {user.lastName}
           </h2>
         </div>
@@ -53,7 +53,7 @@ const Profile = () => {
               <h3 class="mb-0">Language</h3>
             </div>
             <div class="col-sm-9 text-secondary">
-              {getMapKey(languages_map, user.language)}
+              {getMapKey(languagesMap, user.language)}
             </div>
           </div>
           <hr></hr>

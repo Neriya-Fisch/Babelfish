@@ -5,15 +5,15 @@ const user = JSON.parse(localStorage.getItem("user"));
 export default function Requests() {
   // get all friend requests from server, using GET request, "/requests" API endpoint
   // the server will return the friend requests in list of emails.
-  // the list of emails will be stored in the state variable "friend_requests"
-  const [friend_requests, setFriendRequests] = useState([]);
+  // the list of emails will be stored in the state variable "friendRequests"
+  const [friendRequests, setFriendRequests] = useState([]);
 
   // reject or accept friend request
-  function answerFriendRequest(answer, friend_request_email) {
+  function answerFriendRequest(answer, friendRequestEmail) {
     //  use request/answer API endpoint to accept or reject friend request
     //  the server will return the updated friend requests list
     console.log("answer", answer);
-    const user_email = user.email;
+    const userEmail = user.email;
     const fetchData = async () => {
        return await fetch("http://localhost:3001/contacts/requests/answer", {
         method: "POST",
@@ -22,14 +22,14 @@ export default function Requests() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          user_email: user_email,
-          friend_request_email: friend_request_email,
+          userEmail: userEmail,
+          friendRequestEmail: friendRequestEmail,
           answer: answer,
         }),
       }).catch((err) => console.log(err));
     };
     fetchData().then((data) =>{
-      setFriendRequests(data[0].friend_requests);
+      setFriendRequests(data[0].friendRequests);
     }
     )
   }
@@ -37,32 +37,32 @@ export default function Requests() {
   // run get contacts function when the component is mounted
   useEffect(() => {
     // fetch the contacts from the server
-    const user_email = user.email;
-    fetch("http://localhost:3001/contacts/requests/" + user_email)
+    const userEmail = user.email;
+    fetch("http://localhost:3001/contacts/requests/" + userEmail)
       .then((res) => res.json())
       .then((data) => {
-        setFriendRequests(data[0].friend_requests);
+        setFriendRequests(data[0].friendRequests);
       })
       .catch((err) => console.log(err));
-  }, [friend_requests]);
+  }, [friendRequests]);
 
   return (
     <div style={{ "background-color": "#ecf5f3" }}>
       <div>Hello {user.firstName} {user.lastName}!</div>
-      {(friend_requests.length === 0) ? (
+      {(friendRequests.length === 0) ? (
         <h1>You have no new Friend Requests</h1>
       ): null}
       <ul>
-        {friend_requests.map((friend_request, index) => (
+        {friendRequests.map((friendRequest, index) => (
           <li key={index}>
-            {friend_request}
+            {friendRequest}
             <button
-              onClick={() => answerFriendRequest("accept", friend_request)}
+              onClick={() => answerFriendRequest("accept", friendRequest)}
             >
               Accept
             </button>
             <button
-              onClick={() => answerFriendRequest("reject", friend_request)}
+              onClick={() => answerFriendRequest("reject", friendRequest)}
             >
               Reject
             </button>

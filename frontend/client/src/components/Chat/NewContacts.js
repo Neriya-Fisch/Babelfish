@@ -13,7 +13,7 @@ export default function NewContacts({ closeModal }) {
   function handleSubmit(e) {
     e.preventDefault();
 
-    var reciver_user_email = userEmailRef.current.value;
+    var recieverUserEmail = userEmailRef.current.value;
     // using the server to add the user to the contacts list of the user
     fetch("http://localhost:3001/contacts/" + user.email, {
       method: "POST",
@@ -21,7 +21,7 @@ export default function NewContacts({ closeModal }) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email: reciver_user_email,
+        email: recieverUserEmail,
       }),
     }).then((res) => {
       if (res.ok) {
@@ -36,7 +36,7 @@ export default function NewContacts({ closeModal }) {
         }
         // if res number is 404 then the user is not in the database
         else if (res.status === 404) {
-          alert(`User with email "${reciver_user_email}" is not exist`);
+          alert(`User with email "${recieverUserEmail}" is not exist`);
         }
         // if res number is 407 then the user can't add himself
         else if (res.status === 409) {

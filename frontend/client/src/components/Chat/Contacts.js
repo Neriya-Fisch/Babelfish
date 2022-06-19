@@ -53,7 +53,7 @@ export default function Contacts() {
       {contacts.map((contact) => (
         <ListGroup.Item key={contact.email} style={{'background-color': '#ecf5f3'}}>
           <a href={`/chat/${contact.email}`}>{contact.name}</a>
-          {contact.new_message && reciverEmail != contact.email ? <span> 📩 </span> : ""}
+          {contact.newMessage && reciverEmail != contact.email ? <span> 📩 </span> : ""}
           <button
           
             style={{ float: "right", 'border-radius': '12px'}}

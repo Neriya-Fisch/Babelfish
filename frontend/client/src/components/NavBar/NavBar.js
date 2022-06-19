@@ -34,7 +34,7 @@ import "./NavBar.css";
                 <Nav.Link style={{ color: "white" }} as={Link} to="/">
                   Dashboard
                 </Nav.Link>
-                <Nav.Link style={{ color: "white" }} as={Link} to="/friend_requests">
+                <Nav.Link style={{ color: "white" }} as={Link} to="/friendRequests">
                   Friend Requests
                 </Nav.Link>
                 <Nav.Link

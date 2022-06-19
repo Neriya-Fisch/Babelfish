@@ -20,7 +20,7 @@ function App() {
         {user && <Route path="/" exact element={<Chat />} />}
         <Route path="/signup" exact element={<Signup />} />
         <Route path="/profile" exact element={<Profile />} />
-        <Route path="/friend_requests" exact element={<Requests />} />
+        <Route path="/friendRequests" exact element={<Requests />} />
         <Route path="/about" exact element={<About />} />
         <Route path="/login" exact element={<Login />} />
         <Route path="/logout" exact element={<Logout />} />

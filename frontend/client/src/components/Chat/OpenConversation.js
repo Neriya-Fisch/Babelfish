@@ -11,17 +11,17 @@ mic.interimResults = true
 
 export default function OpenConversation({socket}) {
   
-  const user_lang = user.language
+  const userLanguage = user.language
 
-  mic.lang = user_lang
+  mic.lang = userLanguage
 
   const { speak, voices} = useSpeechSynthesis();
-  const voices_lang = voices.filter(voice => voice.lang.includes(user_lang))
+  const voicesLaguage = voices.filter(voice => voice.lang.includes(userLanguage))
   
   // if voice_lang is empty, add the user language.
   // the language is not supported at the moment for TTS engine
-  if (voices_lang.length === 0) {
-    voices_lang.push({lang: user_lang, name: 'not supporting text to speech yet'})
+  if (voicesLaguage.length === 0) {
+    voicesLaguage.push({lang: userLanguage, name: 'not supporting text to speech yet'})
   }
   const [reciverName, setReciverName] = useState(null);
   const [text, setText] = useState("");
@@ -29,18 +29,18 @@ export default function OpenConversation({socket}) {
   const [isListening, setIsListening] = useState(false)
   const [voiceIndex, setVoiceIndex] = useState(null);
   const messagEnd = useRef(null)
-  const voice = voices_lang[voiceIndex] || null;
+  const voice = voicesLaguage[voiceIndex] || null;
 
-  socket.on("recive-message", (message_in, senderEmail) => {
+  socket.on("recive-message", (messageIn, senderEmail) => {
     var reciverEmail = window.location.pathname.split('/')[2]
     if(reciverEmail === senderEmail) {
-      addMessage({direction: 'in', message_info: message_in})
+      addMessage({direction: 'in', messagInfo: messageIn})
     }
   })
 
   // Add message to the message list
-  function addMessage(message_detail){
-    setMessages([...messages, message_detail])
+  function addMessage(messageDetails){
+    setMessages([...messages, messageDetails])
   }
   
   // when submiting the from, add the message to the message list,
@@ -49,8 +49,8 @@ export default function OpenConversation({socket}) {
     e.preventDefault();
 
     // add the message to the message list
-    var message_detail = {direction:"out", message_info:text}
-    addMessage(message_detail);
+    var messageDetails = {direction:"out", messageInfo:text}
+    addMessage(messageDetails);
     var userEmail = user.email
     var reciverEmail = window.location.pathname.split('/')[2]
     socket.emit('send-message', text, userEmail, reciverEmail)
@@ -61,7 +61,7 @@ export default function OpenConversation({socket}) {
   useEffect(() => {
     var reciverEmail = window.location.pathname.split('/')[2]
     // get reciver name from server by Email, using GET request
-    fetch('http://localhost:3001/user_name/' + reciverEmail)
+    fetch('http://localhost:3001/userName/' + reciverEmail)
     .then(res => res.json())
     .then(data => {
       var name = `${data[0].firstName} ${data[0].lastName}`
@@ -74,9 +74,9 @@ export default function OpenConversation({socket}) {
     fetch(`http://localhost:3001/messages/${user.email}/${reciverEmail}`)
     .then(res => res.json())
     .then(data => {
-      (data[0].user_messages).forEach(msg =>{
-        if(msg.partner_email === reciverEmail){
-          setMessages(msg.messages_history);
+      (data[0].userMessages).forEach(msg =>{
+        if(msg.partnerEmail === reciverEmail){
+          setMessages(msg.messagesHistory);
           return;
         }
       }
@@ -136,11 +136,11 @@ export default function OpenConversation({socket}) {
       >
       <span 
         className={`rounded px-2 py-1 ${message.direction === 'out' ? 'bg-primary text-white' : 'border'}`}>
-        {message.message_info}
+        {message.messageInfo}
       </span >
       <div className={`text-muted small ${message.direction === 'out' ? 'text-right' : ''}`}>
                   {message.direction === 'in' ? reciverName : 'You'}
-      <Button variant="outline-primary" onClick={() => { speak({text : message.message_info, voice})}}
+      <Button variant="outline-primary" onClick={() => { speak({text : message.messageInfo, voice})}}
       >Listen</Button>
       </div>
       </div>
@@ -175,7 +175,7 @@ export default function OpenConversation({socket}) {
         setVoiceIndex(event.target.value);
       }}>
       <option value="">Default</option>
-      {voices_lang.map((option, index) => (
+      {voicesLaguage.map((option, index) => (
         <option key={option.voiceURI} value={index}>
           {option.lang} - {option.name}
         </option>

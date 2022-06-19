@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 const connection = mongoose.createConnection(process.env.DB);
 const messagesSchema = new mongoose.Schema({
-  user_email: String,
-  user_messages: [
+  userEmail: String,
+  userMessages: [
     {
       _id: false,
-      partner_email: String,
-      messages_history: [
-        { _id: false, direction: String, message_info: String },
+      partnerEmail: String,
+      messagesHistory: [
+        { _id: false, direction: String, messageInfo: String },
       ],
     },
   ],
