@@ -1,5 +1,5 @@
 import languages_map from "../../Data/languages.json";
-import styles from "./profile.css";
+import styles from "./styles.module.css";
 import generic_male from "../../Images/generic male.jpg";
 import generic_female from "../../Images/generic female.jpg";
 
