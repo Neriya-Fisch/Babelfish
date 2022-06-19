@@ -48,20 +48,24 @@ export default function Requests() {
 
   return (
     <div style={{ "background-color": "#ecf5f3" }}>
-      <div>Hello {user.firstName} {user.lastName}!</div>
-      {(friendRequests.length === 0) ? (
+      <div>
+        Hello {user.firstName} {user.lastName}!
+      </div>
+      {friendRequests.length === 0 ? (
         <h1>You have no new Friend Requests</h1>
-      ): null}
+      ) : null}
       <ul>
         {friendRequests.map((friendRequest, index) => (
           <li key={index}>
             {friendRequest}
             <button
+              style={{ "margin-left": "1%", "border-radius": "12px" }}
               onClick={() => answerFriendRequest("accept", friendRequest)}
             >
               Accept
             </button>
             <button
+              style={{ "margin-left": "0.4%", "border-radius": "12px" }}
               onClick={() => answerFriendRequest("reject", friendRequest)}
             >
               Reject
