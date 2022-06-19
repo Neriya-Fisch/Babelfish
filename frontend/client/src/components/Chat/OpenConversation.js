@@ -75,7 +75,7 @@ export default function OpenConversation({socket}) {
     .then(res => res.json())
     .then(data => {
       (data[0].user_messages).forEach(msg =>{
-        if(msg.partner_email == reciverEmail){
+        if(msg.partner_email === reciverEmail){
           setMessages(msg.messages_history);
           return;
         }
