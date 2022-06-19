@@ -165,13 +165,18 @@ router.post("/remove/:userEmail", async (req, res) => {
   await Contacts.updateOne(
     { userEmail: userEmail },
     { $pull: { contacts: { email: contactEmail } } }
-  )
-    .then(function (user) {
-      res.send(200);
-    })
-    .catch(function (err) {
-      res.send(err);
-    });
+  ).then(async function () {
+    await Contacts.updateOne(
+      { userEmail: contactEmail },
+      { $pull: { contacts: { email: userEmail } } }
+    )
+      .then(function (user) {
+        res.sendStatus(200);
+      })
+      .catch(function (err) {
+        res.send(err);
+      });
+  });
 });
 
 module.exports = router;
