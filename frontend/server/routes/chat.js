@@ -3,8 +3,8 @@ const { User } = require("../models/user");
 const {changeNewMessageStatus} = require("../models/contacts");
 
 // get user lang by user Email
-async function user_email_to_lang(user_email) {
-  return await User.findOne({ email: user_email })
+async function userEmailToLang(userEmail) {
+  return await User.findOne({ email: userEmail })
     .then(function (user) {
       return  user.language;
     })
@@ -15,16 +15,16 @@ async function user_email_to_lang(user_email) {
 
 module.exports = function (io) {
   async function save(message, sender, reciver, dir) {
-    var query1 = await Messages.findOne({ user_email: sender });
+    var query1 = await Messages.findOne({ userEmail: sender });
     if (query1 == null) {
       await Messages.create({
-        user_email: sender,
-        user_messages: {
-          partner_email: reciver,
-          messages_history: [
+        userEmail: sender,
+        userMessages: {
+          partnerEmail: reciver,
+          messagesHistory: [
             {
               direction: dir,
-              message_info: message,
+              messageInfo: message,
             },
           ],
         },
@@ -32,21 +32,21 @@ module.exports = function (io) {
       return;
     }
     var query2 = await Messages.findOne({
-      user_email: sender,
-      "user_messages.partner_email": reciver,
+      userEmail: sender,
+      "userMessages.partnerEmail": reciver,
     });
 
     if (query2 == null) {
       await Messages.findOneAndUpdate(
-        { user_email: sender },
+        { userEmail: sender },
         {
           $push: {
-            user_messages: {
-              partner_email: reciver,
-              messages_history: [
+            userMessages: {
+              partnerEmail: reciver,
+              messagesHistory: [
                 {
                   direction: dir,
-                  message_info: message,
+                  messageInfo: message,
                 },
               ],
             },
@@ -59,14 +59,14 @@ module.exports = function (io) {
 
     await Messages.findOneAndUpdate(
       {
-        user_email: sender,
-        user_messages: { $elemMatch: { partner_email: reciver } },
+        userEmail: sender,
+        userMessages: { $elemMatch: { partnerEmail: reciver } },
       },
       {
         $push: {
-          "user_messages.$.messages_history": {
+          "userMessages.$.messagesHistory": {
             direction: dir,
-            message_info: message,
+            messageInfo: message,
           },
         },
       },
@@ -74,7 +74,7 @@ module.exports = function (io) {
     );
   }
 
-  var user_name_to_id_map = {};
+  var userNameToIdMap = {};
   const spawn = require("child_process").spawn;
 
   // Chat API
@@ -83,19 +83,19 @@ module.exports = function (io) {
     socket.on("send-message", async (message, sender, reciver) => {
       // save the messsage for the sender
       save(message, sender, reciver, 'out');
-      var reciver_lang = await user_email_to_lang(reciver)
+      var recieverLang = await userEmailToLang(reciver)
       .then(function (lang) {
         return lang;
       });
       const pythonProcess = spawn("python", [
         "server/translate/translate.py",
         message,
-        reciver_lang,
+        recieverLang,
       ]);
       pythonProcess.stdout.on("data", async (data) => {
         var translateMessage = data.toString()
         socket
-        .to(user_name_to_id_map[reciver])
+        .to(userNameToIdMap[reciver])
         .emit("recive-message", translateMessage, sender);
         changeNewMessageStatus(reciver, sender, true);
         save(translateMessage, reciver, sender, "in");
@@ -105,9 +105,8 @@ module.exports = function (io) {
       }
       );
     });
-    
-    socket.on("choose-user-name", (user_email) => {
-      user_name_to_id_map[user_email] = socket.id;
+    socket.on("choose-user-name", (userEmail) => {
+      userNameToIdMap[userEmail] = socket.id;
     });
   });
 };

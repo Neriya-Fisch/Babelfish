@@ -2,12 +2,12 @@ const router = require("express").Router();
 const Messages = require("../models/messages");
 
 // return message history by user name and user id using get request
-router.get("/:user_email/:reciver_email", async (req, res) => {
-  var userEmail = req.params.user_email;
-  var reciver_email = req.params.reciver_email;
+router.get("/:userEmail/:reciverEmail", async (req, res) => {
+  var userEmail = req.params.userEmail;
+  var reciverEmail = req.params.reciverEmail;
   var query = await Messages.find({
-    user_email: userEmail,
-    user_messages: { $elemMatch: { partner_email: reciver_email } },
+    userEmail: userEmail,
+    userMessages: { $elemMatch: { partnerEmail: reciverEmail } },
   })
   res.send(query);
 });

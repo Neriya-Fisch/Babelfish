@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
-import languages_map from "../../Data/languages.json";
+import languagesMap from "../../Data/languages.json";
 import countries from "../../Data/countries.json";
 
 const Signup = () => {
@@ -28,7 +28,7 @@ const Signup = () => {
     try {
       console.log(data);
       const url = "http://localhost:3001/api/users";
-      data.language = languages_map[data.language];
+      data.language = languagesMap[data.language];
       const { data: res } = await axios.post(url, data);
       navigate("/login");
       console.log(res.message);
@@ -43,11 +43,11 @@ const Signup = () => {
     }
   };
 
-  let languages_dropdown = Object.keys(languages_map).map((item) => (
+  let languagesDropdown = Object.keys(languagesMap).map((item) => (
     <option key={item}>{item}</option>
   ));
 
-  let countries_dropdown = countries.map((item) => (
+  let countriesDropdown = countries.map((item) => (
     <option key={item}>{item}</option>
   ));
 
@@ -126,7 +126,7 @@ const Signup = () => {
                 required
                 className={styles.input}
               >
-                {languages_dropdown}
+                {languagesDropdown}
               </select>
             </div>
             <br></br>
@@ -138,7 +138,7 @@ const Signup = () => {
                 className={styles.input}
               >
                 <option> Country</option>
-                {countries_dropdown}
+                {countriesDropdown}
               </select>
               <select
                 name="Account Type"

@@ -18,8 +18,8 @@ export default function Dashboard({socket}) {
   
   // using the user name from the url to choose the user name and send it to server using the socket
   useEffect(() => {
-    const user_email = user.email
-    socket.emit('choose-user-name', user_email)
+    const userEmail = user.email
+    socket.emit("choose-user-name", userEmail);
   }, [])
 
   function closeModal(){

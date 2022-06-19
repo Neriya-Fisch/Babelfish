@@ -1,20 +1,20 @@
 const mongoose = require("mongoose");
 const connection = mongoose.createConnection(process.env.DB);
 const ContactsSchema = new mongoose.Schema({
-  user_email: String,
+  userEmail: String,
   contacts: [],
 });
 const Contacts = connection.model("Contacts", ContactsSchema);
 
-// Change contact_email new_message to true for the user
-function changeNewMessageStatus(user_email, contact_email) {
+// Change contactEmail new_message to true for the user
+function changeNewMessageStatus(userEmail, contactEmail) {
   console.log("changeNewMessageStatus");
   Contacts.findOneAndUpdate(
-    { user_email: user_email, "contacts.email": contact_email },
-    { $set: { "contacts.$.new_message": true } },
+    { userEmail: userEmail, "contacts.email": contactEmail },
+    { $set: { "contacts.$.newMessage": true } },
     { new: true },
-    function (error, user_details) {
-      if (!user_details)
+    function (error, userDetails) {
+      if (!userDetails)
         console.log(error);
     }
   );

@@ -41,7 +41,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/contacts", newContactRoute);
 app.use("/messages", conversationRoute);
-app.use("/user_name", userFromEmail);
+app.use("/userName", userFromEmail);
 
 // open socket connection, 
 // using for chatBox consistent communication
