@@ -12,5 +12,9 @@ pip install SpeechRecognition
 pip install pyttsx3
 pip install googletrans==4.0.0-rc1
 ```
-Then, open 2 terminal in '/frontend' and '/frontend/client' and run ```npm start ```
+Then, open terminal in the root and run 'npm start'
+
+short Demo: 
+
+https://user-images.githubusercontent.com/72704008/174986965-702a3fae-1a68-4ca6-bfc2-b8690b40eb9f.mp4
 
